@@ -1,0 +1,6 @@
+|TomasPuto
+clock => ~NO_FANOUT~
+done <= <GND>
+run => ~NO_FANOUT~
+
+

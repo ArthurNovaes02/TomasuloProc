@@ -1,0 +1,7 @@
+vendor_name = ModelSim
+source_file = 1, C:/Users/nanoTech Corporation/Desktop/TomasPuto/TomasPuto.v
+source_file = 1, C:/Users/nanoTech Corporation/Desktop/TomasPuto/db/TomasPuto.cbx.xml
+design_name = TomasPuto
+instance = comp, \clock~I , clock, TomasPuto, 1
+instance = comp, \done~I , done, TomasPuto, 1
+instance = comp, \run~I , run, TomasPuto, 1
