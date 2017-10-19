@@ -255,11 +255,8 @@ module TomasPuto
 										reservationStationAddKusy[i]=1'b0; // Habilita escrita em Vk
 										reservationStationAddVk[i]=registersBank[instr0ParamC]; // Escreve em Vk o valor
 									end
-									if(reservationStationAddJusy[i]==0&reservationStationAddKusy[i]==0)//sem dependencia
-									begin
-										registersBankHaveLabel[instr0ParamA]=1'b1; // Habilita a label no banco de registradores
-										registersBankLabel[instr0ParamA] = pc; // Coloca a label no banco de registradores 
-									end
+									registersBankHaveLabel[instr0ParamA]=1'b1; // Habilita a label no banco de registradores
+									registersBankLabel[instr0ParamA] = pc; // Coloca a label no banco de registradores 
 									for(j=0;j<ROBSIZE;j=j+1) // vai pro buffer de reordenacao
 									begin
 										if(iHateVerilog666)
@@ -314,11 +311,8 @@ module TomasPuto
 										reservationStationMulKusy[i]=1'b0; // Habilita escrita em Vk
 										reservationStationMulVk[i]=registersBank[instr0ParamC]; // Escreve em Vk o valor
 									end
-									if(reservationStationMulJusy[i]==0&reservationStationMulKusy[i]==0)//sem dependencia
-									begin
-										registersBankHaveLabel[instr0ParamA]=1'b1; // Habilita a label no banco de registradores
-										registersBankLabel[instr0ParamA] = pc; // Coloca a label no banco de registradores 
-									end
+									registersBankHaveLabel[instr0ParamA]=1'b1; // Habilita a label no banco de registradores
+									registersBankLabel[instr0ParamA] = pc; // Coloca a label no banco de registradores 
 									for(j=0;j<ROBSIZE;j=j+1) // vai pro buffer de reordenacao
 									begin
 										if(iHateVerilog666)
@@ -360,12 +354,8 @@ module TomasPuto
 										reservationStationLdJusy[i]=1'b0; // Habilita escrita em Vj
 										reservationStationLdVj[i]=registersBank[instr0ParamC]; // Escreve em Vj o valor
 									end
-									
-									if(reservationStationLdJusy[i]==0)//sem dependencia
-									begin
-										registersBankHaveLabel[instr0ParamA]=1'b1; // Habilita a label no banco de registradores
-										registersBankLabel[instr0ParamA] = pc; // Coloca a label no banco de registradores 
-									end
+									registersBankHaveLabel[instr0ParamA]=1'b1; // Habilita a label no banco de registradores
+									registersBankLabel[instr0ParamA] = pc; // Coloca a label no banco de registradores 
 									for(j=0;j<ROBSIZE;j=j+1) // vai pro buffer de reordenacao
 									begin
 										if(iHateVerilog666)
@@ -476,11 +466,8 @@ module TomasPuto
 												reservationStationAddKusy[i]=1'b0; // Habilita escrita em Vk
 												reservationStationAddVk[i]=registersBank[instr1ParamC]; // Escreve em Vk o valor
 											end
-											if(reservationStationAddJusy[i]==0&reservationStationAddKusy[i]==0)//sem dependencia
-											begin
-												registersBankHaveLabel[instr1ParamA]=1'b1; // Habilita a label no banco de registradores
-												registersBankLabel[instr1ParamA] = pc; // Coloca a label no banco de registradores 
-											end
+											registersBankHaveLabel[instr1ParamA]=1'b1; // Habilita a label no banco de registradores
+											registersBankLabel[instr1ParamA] = pc; // Coloca a label no banco de registradores 
 											for(j=0;j<ROBSIZE;j=j+1) // vai pro buffer de reordenacao
 											begin
 												if(iHateVerilog666)
@@ -535,11 +522,8 @@ module TomasPuto
 												reservationStationMulKusy[i]=1'b0; // Habilita escrita em Vk
 												reservationStationMulVk[i]=registersBank[instr1ParamC]; // Escreve em Vk o valor
 											end
-											if(reservationStationMulJusy[i]==0&reservationStationMulKusy[i]==0)//sem dependencia
-											begin
-												registersBankHaveLabel[instr1ParamA]=1'b1; // Habilita a label no banco de registradores
-												registersBankLabel[instr1ParamA] = pc; // Coloca a label no banco de registradores 
-											end
+											registersBankHaveLabel[instr1ParamA]=1'b1; // Habilita a label no banco de registradores
+											registersBankLabel[instr1ParamA] = pc; // Coloca a label no banco de registradores 
 											for(j=0;j<ROBSIZE;j=j+1) // vai pro buffer de reordenacao
 											begin
 												if(iHateVerilog666)
@@ -582,12 +566,8 @@ module TomasPuto
 												reservationStationLdJusy[i]=1'b0; // Habilita escrita em Vj
 												reservationStationLdVj[i]=registersBank[instr1ParamC]; // Escreve em Vj o valor
 											end
-											
-											if(reservationStationLdJusy[i]==0)//sem dependencia
-											begin
-												registersBankHaveLabel[instr1ParamA]=1'b1; // Habilita a label no banco de registradores
-												registersBankLabel[instr1ParamA] = pc; // Coloca a label no banco de registradores 
-											end
+											registersBankHaveLabel[instr1ParamA]=1'b1; // Habilita a label no banco de registradores
+											registersBankLabel[instr1ParamA] = pc; // Coloca a label no banco de registradores 
 											for(j=0;j<ROBSIZE;j=j+1) // vai pro buffer de reordenacao
 											begin
 												if(iHateVerilog666)
@@ -706,25 +686,6 @@ module TomasPuto
 								registersBank[i]=ReordenationBufferValue[ReordenationBufferIndex];
 							end
 						end
-
-						for(i=0;i<RESERVATIONSIZE;i=i+1) // percorre estacoes de reserva para atualizar dependencias
-						begin
-							if(reservationStationAddJusy[i]==0&reservationStationAddKusy[i]==0&reservationStationAddOp[i]!=4'b0111)//grava nos registradores a label
-							begin
-								registersBankLabel[instrMem[reservationStationAddLabel[i]][11:8]]=reservationStationAddLabel[i];
-								registersBankHaveLabel[instrMem[reservationStationAddLabel[i]][11:8]]=1;
-							end
-							if(reservationStationMulJusy[i]==0&reservationStationMulKusy[i]==0)//grava nos registradores a label
-							begin
-								registersBankLabel[instrMem[reservationStationMulLabel[i]][11:8]]=reservationStationMulLabel[i];
-								registersBankHaveLabel[instrMem[reservationStationMulLabel[i]][11:8]]=1;
-							end
-							if(reservationStationLdJusy[i]==0)//grava nos registradores a label
-							begin
-								registersBankLabel[instrMem[reservationStationLdLabel[i]][11:8]]=reservationStationLdLabel[i];
-								registersBankHaveLabel[instrMem[reservationStationLdLabel[i]][11:8]]=1;
-							end
-						end
 					end
 					if(ReordenationBufferBusy[ReordenationBufferIndex]==1) // evita de limpar e avancar se errou o desvio
 					begin
@@ -793,25 +754,6 @@ module TomasPuto
 									begin
 										registersBankHaveLabel[i]=0;
 										registersBank[i]=ReordenationBufferValue[ReordenationBufferIndex];
-									end
-								end
-
-								for(i=0;i<RESERVATIONSIZE;i=i+1) // percorre estacoes de reserva para atualizar dependencias
-								begin
-									if(reservationStationAddJusy[i]==0&reservationStationAddKusy[i]==0&reservationStationAddOp[i]!=4'b0111)//grava nos registradores a label
-									begin
-										registersBankLabel[instrMem[reservationStationAddLabel[i]][11:8]]=reservationStationAddLabel[i];
-										registersBankHaveLabel[instrMem[reservationStationAddLabel[i]][11:8]]=1;
-									end
-									if(reservationStationMulJusy[i]==0&reservationStationMulKusy[i]==0)//grava nos registradores a label
-									begin
-										registersBankLabel[instrMem[reservationStationMulLabel[i]][11:8]]=reservationStationMulLabel[i];
-										registersBankHaveLabel[instrMem[reservationStationMulLabel[i]][11:8]]=1;
-									end
-									if(reservationStationLdJusy[i]==0)//grava nos registradores a label
-									begin
-										registersBankLabel[instrMem[reservationStationLdLabel[i]][11:8]]=reservationStationLdLabel[i];
-										registersBankHaveLabel[instrMem[reservationStationLdLabel[i]][11:8]]=1;
 									end
 								end
 							end
