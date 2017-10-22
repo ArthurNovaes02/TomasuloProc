@@ -1,4 +1,14 @@
-module TomasPuto
+module TomasPuto(clock,done,run); // TOPLEVEL
+	input clock,run;
+	output done;
+
+	TomasuloEspec tomas(clock,done,run);
+
+	//TODO visualizar registradores atraves das chaves
+	//TODO mostrar informações de exec
+endmodule
+
+module TomasuloEspec
 #(parameter RESERVATIONSIZE=2,parameter ROBSIZE=4)
 (clock,done,run);
 	input clock,run;
@@ -10,55 +20,57 @@ module TomasPuto
 	reg [15:0] clockCount; 
 	// Banco de registadores
 	reg [15:0] registersBank [0:15];
-		reg [5:0] registersBankLabel [0:15]; // Guarda a instrucao que precisa do valor
+		reg [10:0] registersBankLabel [0:15]; // Guarda a instrucao que precisa do valor
 		reg registersBankHaveLabel [0:15]; // Indica se hÃ¡ label em determinada posicao
 
 	// ROB
 		reg [$clog2(ROBSIZE):0] ReordenationBufferIndex; // Indicador do index do ROB
 			reg ReordenationBufferBusy [0:ROBSIZE-1];	// Indica se a posicao esta cheia
 			reg [3:0] ReordenationBufferOp [0:ROBSIZE-1];  // Indica a operacao da instrucao do ROB
-			reg [5:0] ReordenationBufferLabel [0:ROBSIZE-1]; // Indica a label da instrucao do ROB que tambem serve para indicar o (pc-1) se o desvio n for tomado
+			reg [3:0] ReordenationBufferDST [0:ROBSIZE-1];  // Indica o destino da instrucao do ROB
+			reg [10:0] ReordenationBufferLabel [0:ROBSIZE-1]; // Indica a label da instrucao do ROB que tambem serve para indicar o (pc-1) se o desvio n for tomado
 			reg [15:0] ReordenationBufferValue [0:ROBSIZE-1]; // Indica o valor da instrucao do ROB se for o mesmo da label o desvio foi tomado
 			reg ReordenationBufferHaveValue [0:ROBSIZE-1]; // Indica se o valore da instrucao ja foi gravado
 		
 	// Estacao de reserva de soma
 		reg [3:0] reservationStationAddOp [0:RESERVATIONSIZE-1]; // Indica operacao que existe na Estacao de reserva
-		reg [5:0] reservationStationAddLabel [0:RESERVATIONSIZE-1]; // Indica o label da operacao da estacao de reserva
+		reg [10:0] reservationStationAddLabel [0:RESERVATIONSIZE-1]; // Indica o label da operacao da estacao de reserva
 		reg reservationStationAddBusy [0:RESERVATIONSIZE-1]; // Indica se hÃ¡ instrucao na Estacao de reserva
-		reg [3:0] reservationStationAddVj [0:RESERVATIONSIZE-1]; // Operando 1 se nao houver dependencia
-		reg [5:0] reservationStationAddQj [0:RESERVATIONSIZE-1]; // Operando 1 se houver dependencia
+		reg [15:0] reservationStationAddVj [0:RESERVATIONSIZE-1]; // Operando 1 se nao houver dependencia
+		reg [10:0] reservationStationAddQj [0:RESERVATIONSIZE-1]; // Operando 1 se houver dependencia
 			reg reservationStationAddJusy [0:RESERVATIONSIZE-1]; // Indica se hÃ¡ dependencia no Op 1
-		reg [3:0] reservationStationAddVk [0:RESERVATIONSIZE-1]; // Operando 2 se nao houver dependencia
-		reg [5:0] reservationStationAddQk [0:RESERVATIONSIZE-1]; // Operando 2 se houver dependencia
+		reg [15:0] reservationStationAddVk [0:RESERVATIONSIZE-1]; // Operando 2 se nao houver dependencia
+		reg [10:0] reservationStationAddQk [0:RESERVATIONSIZE-1]; // Operando 2 se houver dependencia
 			reg reservationStationAddKusy [0:RESERVATIONSIZE-1]; // Indica se hÃ¡ dependencia no Op 2
 		
 	// Estacao de reserva de multiplicacao
 		reg [3:0] reservationStationMulOp [0:RESERVATIONSIZE-1]; // Indica operacao que existe na Estacao de reserva
-		reg [5:0] reservationStationMulLabel [0:RESERVATIONSIZE-1]; // Indica o label da operacao da estacao de reserva
+		reg [10:0] reservationStationMulLabel [0:RESERVATIONSIZE-1]; // Indica o label da operacao da estacao de reserva
 		reg reservationStationMulBusy [0:RESERVATIONSIZE-1]; // Indica se hÃ¡ instrucao na Estacao de reserva
-		reg [3:0] reservationStationMulVj [0:RESERVATIONSIZE-1]; // Operando 1 se nao houver dependencia
-		reg [5:0] reservationStationMulQj [0:RESERVATIONSIZE-1]; // Operando 1 se houver dependencia
+		reg [15:0] reservationStationMulVj [0:RESERVATIONSIZE-1]; // Operando 1 se nao houver dependencia
+		reg [10:0] reservationStationMulQj [0:RESERVATIONSIZE-1]; // Operando 1 se houver dependencia
 			reg reservationStationMulJusy [0:RESERVATIONSIZE-1]; // Indica se hÃ¡ dependencia no Op 1
-		reg [3:0] reservationStationMulVk [0:RESERVATIONSIZE-1]; // Operando 2 se nao houver dependencia
-		reg [5:0] reservationStationMulQk [0:RESERVATIONSIZE-1]; // Operando 2 se houver dependencia
+		reg [15:0] reservationStationMulVk [0:RESERVATIONSIZE-1]; // Operando 2 se nao houver dependencia
+		reg [10:0] reservationStationMulQk [0:RESERVATIONSIZE-1]; // Operando 2 se houver dependencia
 			reg reservationStationMulKusy [0:RESERVATIONSIZE-1]; // Indica se hÃ¡ dependencia no Op 2
 			
 	// Estacao de reserva de memoria
 		reg reservationStationLdBusy [0:RESERVATIONSIZE-1]; // Indica se hÃ¡ instrucao na Estacao de reserva
-		reg [5:0] reservationStationLdLabel [0:RESERVATIONSIZE-1]; // Indica o label da operacao da estacao de reserva
-		reg [3:0] reservationStationLdVj [0:RESERVATIONSIZE-1]; // Operando 1 se nao houver dependencia
-		reg [5:0] reservationStationLdQj [0:RESERVATIONSIZE-1]; // Operando 1 se houver dependencia
+		reg [10:0] reservationStationLdLabel [0:RESERVATIONSIZE-1]; // Indica o label da operacao da estacao de reserva
+		reg [15:0] reservationStationLdVj [0:RESERVATIONSIZE-1]; // Operando 1 se nao houver dependencia
+		reg [10:0] reservationStationLdQj [0:RESERVATIONSIZE-1]; // Operando 1 se houver dependencia
 			reg reservationStationLdJusy [0:RESERVATIONSIZE-1]; // Indica se hÃ¡ dependencia no Op 1
-		reg [5:0] reservationStationLdOffset [0:RESERVATIONSIZE-1]; // Indica qual o offset
+		reg [3:0] reservationStationLdOffset [0:RESERVATIONSIZE-1]; // Indica qual o offset
 
+		// foi criado como forma de otimizacao para evitar adicao de campos no ROB que so seriam usados pelo ROB, na pratica é a mesma coisa
 		reg reservationStationStBusy [0:RESERVATIONSIZE-1]; // Indica se hÃ¡ instrucao na Estacao de reserva
-		reg [5:0] reservationStationStLabel [0:RESERVATIONSIZE-1]; // Indica o label da operacao da estacao de reserva
-		reg [3:0] reservationStationStVj [0:RESERVATIONSIZE-1]; // Operando 1 se nao houver dependencia
-		reg [5:0] reservationStationStQj [0:RESERVATIONSIZE-1]; // Operando 1 se houver dependencia
+		reg [10:0] reservationStationStLabel [0:RESERVATIONSIZE-1]; // Indica o label da operacao da estacao de reserva
+		reg [15:0] reservationStationStVj [0:RESERVATIONSIZE-1]; // Operando 1 se nao houver dependencia
+		reg [10:0] reservationStationStQj [0:RESERVATIONSIZE-1]; // Operando 1 se houver dependencia
 			reg reservationStationStJusy [0:RESERVATIONSIZE-1]; // Indica se hÃ¡ dependencia no Op 1
-		reg [5:0] reservationStationStOffset [0:RESERVATIONSIZE-1]; // Indica qual o offset
-		reg [3:0] reservationStationStVk [0:RESERVATIONSIZE-1]; // Valor se nao houver dependencia
-		reg [5:0] reservationStationStQk [0:RESERVATIONSIZE-1]; // Valor se houver dependencia
+		reg [3:0] reservationStationStOffset [0:RESERVATIONSIZE-1]; // Indica qual o offset
+		reg [15:0] reservationStationStVk [0:RESERVATIONSIZE-1]; // Valor se nao houver dependencia
+		reg [10:0] reservationStationStQk [0:RESERVATIONSIZE-1]; // Valor se houver dependencia
 			reg reservationStationStKusy [0:RESERVATIONSIZE-1]; // Indica se hÃ¡ dependencia no Valor
 
 		
@@ -149,9 +161,9 @@ module TomasPuto
 								SumDone=0;
 								if(reservationStationAddOp[i]==4'b0001) // soma
 									SumOp=1;
-								else if(reservationStationAddOp[i]==4'b0001) // subtracao
+								else if(reservationStationAddOp[i]==4'b0010) // subtracao
 									SumOp=0;
-								else if(reservationStationAddOp[i]==4'b0001) // beq
+								else if(reservationStationAddOp[i]==4'b0111) // beq
 									SumOp=2;
 							end
 						end
@@ -207,7 +219,7 @@ module TomasPuto
 						if(AddrBusy==0)
 						if (reservationStationLdBusy[i] == 1'b1) // Indices que estao ocupados
 						begin
-							if(reservationStationLdJusy[i]==0) // Nao hÃ¡ dependencia
+							if(reservationStationLdJusy[i]==0 & ReordenationBufferLabel[ReordenationBufferIndex]==reservationStationLdLabel[i]) // Nao hÃ¡ dependencia load e store tem q ser na ordem
 							begin
 								AddrBusy=1;
 								AddrParamB=reservationStationLdOffset[i];
@@ -235,7 +247,7 @@ module TomasPuto
 								begin
 									reservationStationAddBusy[i]=1'b1; // Ocupa a posicao
 									reservationStationAddOp[i]=instr0; // Indica operacao da estacao de reserva
-									reservationStationAddLabel[i]=pc; // Coloca a label na estacao de reserva
+									reservationStationAddLabel[i]={clockCount[4:0],pc[5:0]}; // Coloca a label na estacao de reserva
 									if (registersBankHaveLabel[instr0ParamB]) // Verifica se hÃ¡ dependencia de dados em B
 									begin
 										reservationStationAddJusy[i]=1'b1; // Habilita escrita em Qj
@@ -257,8 +269,11 @@ module TomasPuto
 										reservationStationAddKusy[i]=1'b0; // Habilita escrita em Vk
 										reservationStationAddVk[i]=registersBank[instr0ParamC]; // Escreve em Vk o valor
 									end
-									registersBankHaveLabel[instr0ParamA]=1'b1; // Habilita a label no banco de registradores
-									registersBankLabel[instr0ParamA] = pc; // Coloca a label no banco de registradores 
+									if(instr0 != 4'b0111) // se nao for desvio
+									begin
+										registersBankHaveLabel[instr0ParamA]=1'b1; // Habilita a label no banco de registradores
+										registersBankLabel[instr0ParamA] = {clockCount[4:0],pc[5:0]}; // Coloca a label no banco de registradores 
+									end
 									for(j=0;j<ROBSIZE;j=j+1) // vai pro buffer de reordenacao
 									begin
 										if(iHateVerilog666)
@@ -267,8 +282,9 @@ module TomasPuto
 											begin
 												ReordenationBufferBusy[ReordenationBufferIndex+j]=1; // Ocupa o espaco
 												ReordenationBufferOp[ReordenationBufferIndex+j]=instr0; // identifica a operacao
-												ReordenationBufferLabel[ReordenationBufferIndex+j]=pc; // Funciona como a tag
+												ReordenationBufferLabel[ReordenationBufferIndex+j]={clockCount[4:0],pc[5:0]}; // Funciona como a tag
 												ReordenationBufferHaveValue[ReordenationBufferIndex+j]=0; // limpa o valor
+												ReordenationBufferDST[ReordenationBufferIndex+j]=instr0ParamA; // salva o destino 
 												iHateVerilog666=0; // Break
 											end
 										end
@@ -291,7 +307,7 @@ module TomasPuto
 								begin
 									reservationStationMulBusy[i]=1'b1; // Ocupa a posicao
 									reservationStationMulOp[i]=instr0; // Indica operacao da estacao de reserva
-									reservationStationMulLabel[i]=pc; // Coloca a label na estacao de reserva
+									reservationStationMulLabel[i]={clockCount[4:0],pc[5:0]}; // Coloca a label na estacao de reserva
 									if (registersBankHaveLabel[instr0ParamB]) // Verifica se hÃ¡ dependencia de dados em B
 									begin
 										reservationStationMulJusy[i]=1'b1; // Habilita escrita em Qj
@@ -314,7 +330,7 @@ module TomasPuto
 										reservationStationMulVk[i]=registersBank[instr0ParamC]; // Escreve em Vk o valor
 									end
 									registersBankHaveLabel[instr0ParamA]=1'b1; // Habilita a label no banco de registradores
-									registersBankLabel[instr0ParamA] = pc; // Coloca a label no banco de registradores 
+									registersBankLabel[instr0ParamA] = {clockCount[4:0],pc[5:0]}; // Coloca a label no banco de registradores 
 									for(j=0;j<ROBSIZE;j=j+1) // vai pro buffer de reordenacao
 									begin
 										if(iHateVerilog666)
@@ -323,8 +339,9 @@ module TomasPuto
 											begin
 												ReordenationBufferBusy[ReordenationBufferIndex+j]=1; // Ocupa o espaco
 												ReordenationBufferOp[ReordenationBufferIndex+j]=instr0; // identifica a operacao
-												ReordenationBufferLabel[ReordenationBufferIndex+j]=pc; // Funciona como a tag
+												ReordenationBufferLabel[ReordenationBufferIndex+j]={clockCount[4:0],pc[5:0]}; // Funciona como a tag
 												ReordenationBufferHaveValue[ReordenationBufferIndex+j]=0; // limpa o valor
+												ReordenationBufferDST[ReordenationBufferIndex+j]=instr0ParamA; // salva o destino 
 												iHateVerilog666=0; // Break
 											end
 										end
@@ -344,7 +361,7 @@ module TomasPuto
 								if (reservationStationLdBusy[i] == 1'b0) // Primeiro indice vazio
 								begin
 									reservationStationLdBusy[i]=1'b1; // Ocupa a posicao
-									reservationStationLdLabel[i]=pc; // Coloca a label na estacao de reserva
+									reservationStationLdLabel[i]={clockCount[4:0],pc[5:0]}; // Coloca a label na estacao de reserva
 									reservationStationLdOffset[i]=instr0ParamB; // Grava o Offset
 									if (registersBankHaveLabel[instr0ParamC]) // Verifica se hÃ¡ dependencia de dados em B
 									begin
@@ -357,7 +374,7 @@ module TomasPuto
 										reservationStationLdVj[i]=registersBank[instr0ParamC]; // Escreve em Vj o valor
 									end
 									registersBankHaveLabel[instr0ParamA]=1'b1; // Habilita a label no banco de registradores
-									registersBankLabel[instr0ParamA] = pc; // Coloca a label no banco de registradores 
+									registersBankLabel[instr0ParamA] = {clockCount[4:0],pc[5:0]}; // Coloca a label no banco de registradores 
 									for(j=0;j<ROBSIZE;j=j+1) // vai pro buffer de reordenacao
 									begin
 										if(iHateVerilog666)
@@ -366,8 +383,9 @@ module TomasPuto
 											begin
 												ReordenationBufferBusy[ReordenationBufferIndex+j]=1; // Ocupa o espaco
 												ReordenationBufferOp[ReordenationBufferIndex+j]=instr0; // identifica a operacao
-												ReordenationBufferLabel[ReordenationBufferIndex+j]=pc; // Funciona como a tag
+												ReordenationBufferLabel[ReordenationBufferIndex+j]={clockCount[4:0],pc[5:0]}; // Funciona como a tag
 												ReordenationBufferHaveValue[ReordenationBufferIndex+j]=0; // limpa o valor
+												ReordenationBufferDST[ReordenationBufferIndex+j]=instr0ParamA; // salva o destino 
 												iHateVerilog666=0; // Break
 											end
 										end
@@ -387,7 +405,7 @@ module TomasPuto
 								if (reservationStationStBusy[i] == 1'b0) // Primeiro indice vazio
 								begin
 									reservationStationStBusy[i]=1'b1; // Ocupa a posicao
-									reservationStationStLabel[i]=pc; // Coloca a label na estacao de reserva
+									reservationStationStLabel[i]={clockCount[4:0],pc[5:0]}; // Coloca a label na estacao de reserva
 									reservationStationStOffset[i]=instr0ParamB; // Grava o Offset
 									if (registersBankHaveLabel[instr0ParamC]) // Verifica se ha dependencia de dados em B
 									begin
@@ -418,8 +436,9 @@ module TomasPuto
 											begin
 												ReordenationBufferBusy[ReordenationBufferIndex+j]=1; // Ocupa o espaco
 												ReordenationBufferOp[ReordenationBufferIndex+j]=instr0; // identifica a operacao
-												ReordenationBufferLabel[ReordenationBufferIndex+j]=pc; // Funciona como a tag
+												ReordenationBufferLabel[ReordenationBufferIndex+j]={clockCount[4:0],pc[5:0]}; // Funciona como a tag
 												ReordenationBufferHaveValue[ReordenationBufferIndex+j]=0; // limpa o valor
+												ReordenationBufferDST[ReordenationBufferIndex+j]=instr0ParamA; // salva o destino 
 												iHateVerilog666=0; // Break
 											end
 										end
@@ -433,10 +452,10 @@ module TomasPuto
 					begin
 						iHateVerilog666=0;
 					end
-					if(iHateVerilog666 == 0)
+					if(iHateVerilog666 == 0 & instr0 != 4'b0111) // se despachou e nao foi desvio
 					begin
 						pc=pc+1;
-						if(instr0 != 4'b1001 & ROBSlots>1 & pc<lastPC) // segundo despacho
+						if(ROBSlots>1 & pc<lastPC) // segundo despacho
 						begin
 							//--------------------------------
 							if(instr1 == 4'b0001 | instr1 == 4'b0010 | instr1 == 4'b0111) // Estacao de reserva ADD SUB e BEQ
@@ -450,7 +469,7 @@ module TomasPuto
 										begin
 											reservationStationAddBusy[i]=1'b1; // Ocupa a posicao
 											reservationStationAddOp[i]=instr1; // Indica operacao da estacao de reserva 
-											reservationStationAddLabel[i]=pc; // Coloca a label na estacao de reserva
+											reservationStationAddLabel[i]={clockCount[4:0],pc[5:0]}; // Coloca a label na estacao de reserva
 											if (registersBankHaveLabel[instr1ParamB]) // Verifica se hÃ¡ dependencia de dados em B
 											begin
 												reservationStationAddJusy[i]=1'b1; // Habilita escrita em Qj
@@ -472,8 +491,11 @@ module TomasPuto
 												reservationStationAddKusy[i]=1'b0; // Habilita escrita em Vk
 												reservationStationAddVk[i]=registersBank[instr1ParamC]; // Escreve em Vk o valor
 											end
-											registersBankHaveLabel[instr1ParamA]=1'b1; // Habilita a label no banco de registradores
-											registersBankLabel[instr1ParamA] = pc; // Coloca a label no banco de registradores 
+											if(instr1 != 4'b0111) // se nao for desvio
+											begin
+												registersBankHaveLabel[instr1ParamA]=1'b1; // Habilita a label no banco de registradores
+												registersBankLabel[instr1ParamA] = {clockCount[4:0],pc[5:0]}; // Coloca a label no banco de registradores 
+											end
 											for(j=0;j<ROBSIZE;j=j+1) // vai pro buffer de reordenacao
 											begin
 												if(iHateVerilog666)
@@ -482,14 +504,15 @@ module TomasPuto
 													begin
 														ReordenationBufferBusy[ReordenationBufferIndex+j]=1; // Ocupa o espaco
 														ReordenationBufferOp[ReordenationBufferIndex+j]=instr1; // identifica a operacao
-														ReordenationBufferLabel[ReordenationBufferIndex+j]=pc; // Funciona como a tag
+														ReordenationBufferLabel[ReordenationBufferIndex+j]={clockCount[4:0],pc[5:0]}; // Funciona como a tag
 														ReordenationBufferHaveValue[ReordenationBufferIndex+j]=0; // limpa o valor
+														ReordenationBufferDST[ReordenationBufferIndex+j]=instr1ParamA; // salva o destino 
 														iHateVerilog666=0; // Break
 													end
 												end
 											end
-											if(instr0 == 4'b0111)//desvio
-												pc=instr0ParamA;
+											if(instr1 == 4'b0111)//desvio
+												pc=instr1ParamA;
 											iHateVerilog666=0; // Break indicando que houve despacho da primeira instrucao
 										end
 									end
@@ -506,7 +529,7 @@ module TomasPuto
 										begin
 											reservationStationMulBusy[i]=1'b1; // Ocupa a posicao
 											reservationStationMulOp[i]=instr1; // Indica operacao da estacao de reserva 
-											reservationStationAddLabel[i]=pc; // Coloca a label na estacao de reserva
+											reservationStationAddLabel[i]={clockCount[4:0],pc[5:0]}; // Coloca a label na estacao de reserva
 											if (registersBankHaveLabel[instr1ParamB]) // Verifica se hÃ¡ dependencia de dados em B
 											begin
 												reservationStationMulJusy[i]=1'b1; // Habilita escrita em Qj
@@ -529,7 +552,7 @@ module TomasPuto
 												reservationStationMulVk[i]=registersBank[instr1ParamC]; // Escreve em Vk o valor
 											end
 											registersBankHaveLabel[instr1ParamA]=1'b1; // Habilita a label no banco de registradores
-											registersBankLabel[instr1ParamA] = pc; // Coloca a label no banco de registradores 
+											registersBankLabel[instr1ParamA] = {clockCount[4:0],pc[5:0]}; // Coloca a label no banco de registradores 
 											for(j=0;j<ROBSIZE;j=j+1) // vai pro buffer de reordenacao
 											begin
 												if(iHateVerilog666)
@@ -538,8 +561,9 @@ module TomasPuto
 													begin
 														ReordenationBufferBusy[ReordenationBufferIndex+j]=1; // Ocupa o espaco
 														ReordenationBufferOp[ReordenationBufferIndex+j]=instr1; // identifica a operacao
-														ReordenationBufferLabel[ReordenationBufferIndex+j]=pc; // Funciona como a tag
+														ReordenationBufferLabel[ReordenationBufferIndex+j]={clockCount[4:0],pc[5:0]}; // Funciona como a tag
 														ReordenationBufferHaveValue[ReordenationBufferIndex+j]=0; // limpa o valor
+														ReordenationBufferDST[ReordenationBufferIndex+j]=instr1ParamA; // salva o destino 
 														iHateVerilog666=0; // Break
 													end
 												end
@@ -560,7 +584,7 @@ module TomasPuto
 										if (reservationStationLdBusy[i] == 1'b0) // Primeiro indice vazio
 										begin
 											reservationStationLdBusy[i]=1'b1; // Ocupa a posicao
-											reservationStationLdLabel[i]=pc; // Coloca a label na estacao de reserva
+											reservationStationLdLabel[i]={clockCount[4:0],pc[5:0]}; // Coloca a label na estacao de reserva
 											reservationStationLdOffset[i]=instr1ParamB; // Grava o Offset
 											if (registersBankHaveLabel[instr1ParamC]) // Verifica se hÃ¡ dependencia de dados em B
 											begin
@@ -573,7 +597,7 @@ module TomasPuto
 												reservationStationLdVj[i]=registersBank[instr1ParamC]; // Escreve em Vj o valor
 											end
 											registersBankHaveLabel[instr1ParamA]=1'b1; // Habilita a label no banco de registradores
-											registersBankLabel[instr1ParamA] = pc; // Coloca a label no banco de registradores 
+											registersBankLabel[instr1ParamA] = {clockCount[4:0],pc[5:0]}; // Coloca a label no banco de registradores 
 											for(j=0;j<ROBSIZE;j=j+1) // vai pro buffer de reordenacao
 											begin
 												if(iHateVerilog666)
@@ -582,8 +606,9 @@ module TomasPuto
 													begin
 														ReordenationBufferBusy[ReordenationBufferIndex+j]=1; // Ocupa o espaco
 														ReordenationBufferOp[ReordenationBufferIndex+j]=instr1; // identifica a operacao
-														ReordenationBufferLabel[ReordenationBufferIndex+j]=pc; // Funciona como a tag
+														ReordenationBufferLabel[ReordenationBufferIndex+j]={clockCount[4:0],pc[5:0]}; // Funciona como a tag
 														ReordenationBufferHaveValue[ReordenationBufferIndex+j]=0; // limpa o valor
+														ReordenationBufferDST[ReordenationBufferIndex+j]=instr1ParamA; // salva o destino 
 														iHateVerilog666=0; // Break
 													end
 												end
@@ -595,7 +620,7 @@ module TomasPuto
 								//--------------------------------
 							end
 							//--------------------------------
-							else if(instr0 == 4'b0110) // Estacao de reserva ST
+							else if(instr1 == 4'b0110) // Estacao de reserva ST
 							begin
 								iHateVerilog666=1;
 								for (i=0; i<RESERVATIONSIZE; i=i+1)
@@ -605,7 +630,7 @@ module TomasPuto
 										if (reservationStationStBusy[i] == 1'b0) // Primeiro indice vazio
 										begin
 											reservationStationStBusy[i]=1'b1; // Ocupa a posicao
-											reservationStationStLabel[i]=pc; // Coloca a label na estacao de reserva
+											reservationStationStLabel[i]={clockCount[4:0],pc[5:0]}; // Coloca a label na estacao de reserva
 											reservationStationStOffset[i]=instr1ParamB; // Grava o Offset
 											if (registersBankHaveLabel[instr1ParamC]) // Verifica se hÃ¡ dependencia de dados em B
 											begin
@@ -617,7 +642,7 @@ module TomasPuto
 												reservationStationStJusy[i]=1'b0; // Habilita escrita em Vj
 												reservationStationStVj[i]=registersBank[instr1ParamC]; // Escreve em Vj o valor
 											end
-											if (registersBankHaveLabel[instr0ParamA])// Verifica se hÃ¡ dependencia de dados em Valor
+											if (registersBankHaveLabel[instr1ParamA])// Verifica se hÃ¡ dependencia de dados em Valor
 											begin
 												reservationStationStKusy[i]=1'b1; // Habilita escrita em Qk
 												reservationStationStQk[i]=registersBankLabel[instr1ParamA]; // Escreve em Qk a label
@@ -636,8 +661,9 @@ module TomasPuto
 													begin
 														ReordenationBufferBusy[ReordenationBufferIndex+j]=1; // Ocupa o espaco
 														ReordenationBufferOp[ReordenationBufferIndex+j]=instr1; // identifica a operacao
-														ReordenationBufferLabel[ReordenationBufferIndex+j]=pc; // Funciona como a tag
+														ReordenationBufferLabel[ReordenationBufferIndex+j]={clockCount[4:0],pc[5:0]}; // Funciona como a tag
 														ReordenationBufferHaveValue[ReordenationBufferIndex+j]=0; // limpa o valor
+														ReordenationBufferDST[ReordenationBufferIndex+j]=instr1ParamA; // salva o destino 
 														iHateVerilog666=0; // Break
 													end
 												end
@@ -647,12 +673,12 @@ module TomasPuto
 									end
 								end
 							end
-							else if(instr0 == 4'b0000) // Stall
+							else if(instr1 == 4'b0000) // Stall
 							begin
 								iHateVerilog666=0;
 							end
 							//--------------------------------
-							if(iHateVerilog666 == 0)
+							if(iHateVerilog666 == 0 & instr1 != 4'b0111)
 								pc=pc+1;
 						end
 					end
@@ -662,9 +688,9 @@ module TomasPuto
 				begin
 					if(ReordenationBufferOp[ReordenationBufferIndex]==4'b0111) // se for desvio verifica
 					begin
-						if(ReordenationBufferValue[ReordenationBufferIndex]==ReordenationBufferLabel[ReordenationBufferIndex]) // erowww
+						if(ReordenationBufferValue[ReordenationBufferIndex]!=0) // erowww
 						begin
-							pc=ReordenationBufferValue[ReordenationBufferIndex]+1; // coloca o pc certo
+							pc=ReordenationBufferLabel[ReordenationBufferIndex][5:0]+1; // coloca o pc certo
 							ReordenationBufferIndex=0;
 							for(i=0;i<ROBSIZE;i=i+1) // limpa o rob
 								ReordenationBufferBusy[i]=0;
@@ -683,46 +709,63 @@ module TomasPuto
 						for(i=0;i<RESERVATIONSIZE;i=i+1)
 						begin
 							if(reservationStationStLabel[i]==ReordenationBufferLabel[ReordenationBufferIndex])
+							begin
 								dataMem[ReordenationBufferValue[ReordenationBufferIndex]]=reservationStationStVk[i];
+								reservationStationStBusy[i]=0;
+							end
 						end
 					end
 					else begin // se nao for store
-						for(i=0;i<16;i=i+1) // percorre o banco de registradores para gravar o resultado
+						registersBank[ReordenationBufferDST[ReordenationBufferIndex]]=ReordenationBufferValue[ReordenationBufferIndex];
+						registersBankHaveLabel[ReordenationBufferDST[ReordenationBufferIndex]]=0;
+						for(i=0;i<RESERVATIONSIZE;i=i+1) // percorre estacoes de reserva procurando dependencia
 						begin
-							if(registersBankHaveLabel[i])
-							if(registersBankLabel[i]==ReordenationBufferLabel[ReordenationBufferIndex])
+							if(reservationStationAddJusy[i]==1) //  ha dependencia
+							if(reservationStationAddQj[i]==ReordenationBufferLabel[ReordenationBufferIndex])
 							begin
-								registersBankHaveLabel[i]=0;
-								registersBank[i]=ReordenationBufferValue[ReordenationBufferIndex];
+								reservationStationAddVj[i]=ReordenationBufferValue[ReordenationBufferIndex]; // grava o valor
+								reservationStationAddJusy[i]=0; // remove a dependencia
+							end
+							if(reservationStationAddKusy[i]==1) //  ha dependencia
+							if(reservationStationAddQk[i]==ReordenationBufferLabel[ReordenationBufferIndex])
+							begin
+								reservationStationAddVk[i]=ReordenationBufferValue[ReordenationBufferIndex]; // grava o valor
+								reservationStationAddKusy[i]=0; // remove a dependencia
+							end
+							if(reservationStationMulJusy[i]==1) //  ha dependencia
+							if(reservationStationMulQj[i]==ReordenationBufferLabel[ReordenationBufferIndex])
+							begin
+								reservationStationMulVj[i]=ReordenationBufferValue[ReordenationBufferIndex]; // grava o valor
+								reservationStationMulJusy[i]=0; // remove a dependencia
+							end
+							if(reservationStationMulKusy[i]==1) //  ha dependencia
+							if(reservationStationMulQk[i]==ReordenationBufferLabel[ReordenationBufferIndex])
+							begin
+								reservationStationMulVk[i]=ReordenationBufferValue[ReordenationBufferIndex]; // grava o valor
+								reservationStationMulKusy[i]=0; // remove a dependencia
+							end
+							if(reservationStationLdJusy[i]==1) //  ha dependencia
+							if(reservationStationLdQj[i]==ReordenationBufferLabel[ReordenationBufferIndex])
+							begin
+								reservationStationLdVj[i]=ReordenationBufferValue[ReordenationBufferIndex]; // grava o valor
+								reservationStationLdJusy[i]=0; // remove a dependencia
+							end
+							if(reservationStationStJusy[i]==1) //  ha dependencia
+							if(reservationStationStQj[i]==ReordenationBufferLabel[ReordenationBufferIndex])
+							begin
+								reservationStationStVj[i]=ReordenationBufferValue[ReordenationBufferIndex]; // grava o valor
+								reservationStationStJusy[i]=0; // remove a dependencia
+							end
+							if(reservationStationStKusy[i]==1) //  ha dependencia
+							if(reservationStationStQk[i]==ReordenationBufferLabel[ReordenationBufferIndex])
+							begin
+								reservationStationStVk[i]=ReordenationBufferValue[ReordenationBufferIndex]; // grava o valor
+								reservationStationStKusy[i]=0; // remove a dependencia
 							end
 						end
 					end
 					if(ReordenationBufferBusy[ReordenationBufferIndex]==1) // evita de limpar e avancar se errou o desvio
 					begin
-						for(i=0;i<RESERVATIONSIZE;i=i+1) // limpa a estacao de reserva usada
-						begin
-							if(ReordenationBufferOp[ReordenationBufferIndex] == 4'b0001 | ReordenationBufferOp[ReordenationBufferIndex] == 4'b0010 | ReordenationBufferOp[ReordenationBufferIndex] == 4'b1001)
-							begin
-								if(reservationStationAddLabel[i]==ReordenationBufferLabel[ReordenationBufferIndex])
-									reservationStationAddBusy[i]=0;
-							end
-							else if(ReordenationBufferOp[ReordenationBufferIndex] == 4'b0011 | ReordenationBufferOp[ReordenationBufferIndex] == 4'b0100) 
-							begin
-								if(reservationStationMulLabel[i]==ReordenationBufferLabel[ReordenationBufferIndex])
-									reservationStationMulLabel[i]=0;
-							end
-							else if(ReordenationBufferOp[ReordenationBufferIndex] == 4'b0101)
-							begin
-								if(reservationStationLdLabel[i]==ReordenationBufferLabel[ReordenationBufferIndex])
-									reservationStationLdBusy[i]=0;
-							end
-							else if(ReordenationBufferOp[ReordenationBufferIndex] == 4'b0110)
-							begin
-								if(reservationStationStLabel[i]==ReordenationBufferLabel[ReordenationBufferIndex])
-									reservationStationStBusy[i]=0;
-							end
-						end
-
 						ReordenationBufferBusy[ReordenationBufferIndex]=0; // desocupa o ROB
 						ReordenationBufferIndex=ReordenationBufferIndex+1; // avanca no ponteiro
 					end
@@ -732,9 +775,9 @@ module TomasPuto
 						begin
 							if(ReordenationBufferOp[ReordenationBufferIndex]==4'b0111) // se for desvio verifica
 							begin
-								if(ReordenationBufferValue[ReordenationBufferIndex]==ReordenationBufferLabel[ReordenationBufferIndex]) // erowww
+								if(ReordenationBufferValue[ReordenationBufferIndex]!=0) // erowww
 								begin
-									pc=ReordenationBufferValue[ReordenationBufferIndex]+1; // coloca o pc certo
+									pc=ReordenationBufferLabel[ReordenationBufferIndex][5:0]+1; // coloca o pc certo
 									ReordenationBufferIndex=0;
 									for(i=0;i<ROBSIZE;i=i+1) // limpa o rob
 										ReordenationBufferBusy[i]=0;
@@ -753,46 +796,63 @@ module TomasPuto
 								for(i=0;i<RESERVATIONSIZE;i=i+1)
 								begin
 									if(reservationStationStLabel[i]==ReordenationBufferLabel[ReordenationBufferIndex])
+									begin
 										dataMem[ReordenationBufferValue[ReordenationBufferIndex]]=reservationStationStVk[i];
+										reservationStationStBusy[i]=0;
+									end
 								end
 							end
 							else begin // se nao for store
-								for(i=0;i<16;i=i+1) // percorre o banco de registradores para gravar o resultado
+								registersBank[ReordenationBufferDST[ReordenationBufferIndex]]=ReordenationBufferValue[ReordenationBufferIndex];
+								registersBankHaveLabel[ReordenationBufferDST[ReordenationBufferIndex]]=0;
+								for(i=0;i<RESERVATIONSIZE;i=i+1) // percorre estacoes de reserva procurando dependencia
 								begin
-									if(registersBankHaveLabel[i])
-									if(registersBankLabel[i]==ReordenationBufferLabel[ReordenationBufferIndex])
+									if(reservationStationAddJusy[i]==1) //  ha dependencia
+									if(reservationStationAddQj[i]==ReordenationBufferLabel[ReordenationBufferIndex])
 									begin
-										registersBankHaveLabel[i]=0;
-										registersBank[i]=ReordenationBufferValue[ReordenationBufferIndex];
+										reservationStationAddVj[i]=ReordenationBufferValue[ReordenationBufferIndex]; // grava o valor
+										reservationStationAddJusy[i]=0; // remove a dependencia
+									end
+									if(reservationStationAddKusy[i]==1) //  ha dependencia
+									if(reservationStationAddQk[i]==ReordenationBufferLabel[ReordenationBufferIndex])
+									begin
+										reservationStationAddVk[i]=ReordenationBufferValue[ReordenationBufferIndex]; // grava o valor
+										reservationStationAddKusy[i]=0; // remove a dependencia
+									end
+									if(reservationStationMulJusy[i]==1) //  ha dependencia
+									if(reservationStationMulQj[i]==ReordenationBufferLabel[ReordenationBufferIndex])
+									begin
+										reservationStationMulVj[i]=ReordenationBufferValue[ReordenationBufferIndex]; // grava o valor
+										reservationStationMulJusy[i]=0; // remove a dependencia
+									end
+									if(reservationStationMulKusy[i]==1) //  ha dependencia
+									if(reservationStationMulQk[i]==ReordenationBufferLabel[ReordenationBufferIndex])
+									begin
+										reservationStationMulVk[i]=ReordenationBufferValue[ReordenationBufferIndex]; // grava o valor
+										reservationStationMulKusy[i]=0; // remove a dependencia
+									end
+									if(reservationStationLdJusy[i]==1) //  ha dependencia
+									if(reservationStationLdQj[i]==ReordenationBufferLabel[ReordenationBufferIndex])
+									begin
+										reservationStationLdVj[i]=ReordenationBufferValue[ReordenationBufferIndex]; // grava o valor
+										reservationStationLdJusy[i]=0; // remove a dependencia
+									end
+									if(reservationStationStJusy[i]==1) //  ha dependencia
+									if(reservationStationStQj[i]==ReordenationBufferLabel[ReordenationBufferIndex])
+									begin
+										reservationStationStVj[i]=ReordenationBufferValue[ReordenationBufferIndex]; // grava o valor
+										reservationStationStJusy[i]=0; // remove a dependencia
+									end
+									if(reservationStationStKusy[i]==1) //  ha dependencia
+									if(reservationStationStQk[i]==ReordenationBufferLabel[ReordenationBufferIndex])
+									begin
+										reservationStationStVk[i]=ReordenationBufferValue[ReordenationBufferIndex]; // grava o valor
+										reservationStationStKusy[i]=0; // remove a dependencia
 									end
 								end
 							end
 							if(ReordenationBufferBusy[ReordenationBufferIndex]==1) // evita de limpar e avancar se errou o desvio
 							begin
-								for(i=0;i<RESERVATIONSIZE;i=i+1) // limpa a estacao de reserva usada
-								begin
-									if(ReordenationBufferOp[ReordenationBufferIndex] == 4'b0001 | ReordenationBufferOp[ReordenationBufferIndex] == 4'b0010 | ReordenationBufferOp[ReordenationBufferIndex] == 4'b1001)
-									begin
-										if(reservationStationAddLabel[i]==ReordenationBufferLabel[ReordenationBufferIndex])
-											reservationStationAddBusy[i]=0;
-									end
-									else if(ReordenationBufferOp[ReordenationBufferIndex] == 4'b0011 | ReordenationBufferOp[ReordenationBufferIndex] == 4'b0100) 
-									begin
-										if(reservationStationMulLabel[i]==ReordenationBufferLabel[ReordenationBufferIndex])
-											reservationStationMulLabel[i]=0;
-									end
-									else if(ReordenationBufferOp[ReordenationBufferIndex] == 4'b0101)
-									begin
-										if(reservationStationLdLabel[i]==ReordenationBufferLabel[ReordenationBufferIndex])
-											reservationStationLdBusy[i]=0;
-									end
-									else if(ReordenationBufferOp[ReordenationBufferIndex] == 4'b0110)
-									begin
-										if(reservationStationStLabel[i]==ReordenationBufferLabel[ReordenationBufferIndex])
-											reservationStationStBusy[i]=0;
-									end
-								end
-
 								ReordenationBufferBusy[ReordenationBufferIndex]=0; // desocupa o ROB
 								ReordenationBufferIndex=ReordenationBufferIndex+1; // avanca no ponteiro
 							end
@@ -844,24 +904,25 @@ module TomasPuto
 								reservationStationMulKusy[i]=0; // remove a dependencia
 							end
 							if(reservationStationLdJusy[i]==1) //  ha dependencia
-							if(reservationStationLdQj[i]==reservationStationLdLabel[MulIndex])
+							if(reservationStationLdQj[i]==reservationStationMulLabel[MulIndex])
 							begin
 								reservationStationLdVj[i]=MulValue; // grava o valor
 								reservationStationLdJusy[i]=0; // remove a dependencia
 							end
 							if(reservationStationStJusy[i]==1) //  ha dependencia
-							if(reservationStationStQj[i]==reservationStationStLabel[MulIndex])
+							if(reservationStationStQj[i]==reservationStationMulLabel[MulIndex])
 							begin
 								reservationStationStVj[i]=MulValue; // grava o valor
 								reservationStationStJusy[i]=0; // remove a dependencia
 							end
 							if(reservationStationStKusy[i]==1) //  ha dependencia
-							if(reservationStationStQk[i]==reservationStationStLabel[MulIndex])
+							if(reservationStationStQk[i]==reservationStationMulLabel[MulIndex])
 							begin
 								reservationStationStVk[i]=MulValue; // grava o valor
 								reservationStationStKusy[i]=0; // remove a dependencia
 							end
 						end
+						reservationStationMulBusy[MulIndex]=0; // limpa a estacao de reserva
 						MulDone=0; MulBusy=0;// desocupa a unidade
 						CDBusy=0; // desocupa o cdb
 					end
@@ -911,18 +972,19 @@ module TomasPuto
 								reservationStationLdJusy[i]=0; // remove a dependencia
 							end
 							if(reservationStationStJusy[i]==1) //  ha dependencia
-							if(reservationStationStQj[i]==reservationStationStLabel[SumIndex])
+							if(reservationStationStQj[i]==reservationStationAddLabel[SumIndex])
 							begin
 								reservationStationStVj[i]=SumValue; // grava o valor
 								reservationStationStJusy[i]=0; // remove a dependencia
 							end
 							if(reservationStationStKusy[i]==1) //  ha dependencia
-							if(reservationStationStQk[i]==reservationStationStLabel[SumIndex])
+							if(reservationStationStQk[i]==reservationStationAddLabel[SumIndex])
 							begin
 								reservationStationStVk[i]=SumValue; // grava o valor
 								reservationStationStKusy[i]=0; // remove a dependencia
 							end
 						end
+						reservationStationAddBusy[SumIndex]=0; // limpa a estacao de reserva
 						SumDone=0; SumBusy=0; // desocupa a unidade
 						CDBusy=0; // desocupa o cdb
 					end
@@ -973,18 +1035,19 @@ module TomasPuto
 								reservationStationLdJusy[i]=0; // remove a dependencia
 							end
 							if(reservationStationStJusy[i]==1) //  ha dependencia
-							if(reservationStationStQj[i]==reservationStationStLabel[AddrIndex])
+							if(reservationStationStQj[i]==reservationStationLdLabel[AddrIndex])
 							begin
 								reservationStationStVj[i]=AddrValue; // grava o valor
 								reservationStationStJusy[i]=0; // remove a dependencia
 							end
 							if(reservationStationStKusy[i]==1) //  ha dependencia
-							if(reservationStationStQk[i]==reservationStationStLabel[AddrIndex])
+							if(reservationStationStQk[i]==reservationStationLdLabel[AddrIndex])
 							begin
 								reservationStationStVk[i]=AddrValue; // grava o valor
 								reservationStationStKusy[i]=0; // remove a dependencia
 							end
 						end
+						reservationStationLdBusy[AddrIndex]=0; // limpa a estacao de reserva
 						AddrDone=0; AddrBusy=0; // desocupa a unidade
 						CDBusy=0; // desocupa o cdb
 					end
@@ -1015,8 +1078,12 @@ module TomasPuto
 								SumDone=1;
 								if(SumOp==1)
 									SumValue=SumParamB+SumParamC; 
-								else
+								else if(SumOp==0)
 									SumValue=SumParamB-SumParamC;
+								else if(SumParamB==SumParamC)
+									SumValue=0;
+								else
+									SumValue=1;
 							end
 						endcase
 				end
@@ -1069,33 +1136,26 @@ module TomasPuto
 				begin
 					for(i=0;i<ROBSIZE;i=i+1) // Grava o resultado no ROB
 					begin
-						if(ReordenationBufferBusy[i]==1 & ReordenationBufferLabel[i]==reservationStationAddLabel[AddrIndex]) // tag deu match
+						if(ReordenationBufferBusy[i]==1 & ReordenationBufferLabel[i]==reservationStationAddLabel[SumIndex]) // tag deu match
 						begin
-							if(SumValue==0) // desvio
-								ReordenationBufferValue[i]=instrMem[reservationStationAddLabel[AddrIndex]][11:8];
-							else // sem desvio
-								ReordenationBufferValue[i]=reservationStationAddLabel[AddrIndex];
+							ReordenationBufferValue[i]=SumValue; // valor diferente do endereco de desvio
 							ReordenationBufferHaveValue[i]=1;
 						end
 					end
+					reservationStationAddBusy[SumIndex]=0; // libera a unidade
 					SumDone=0; SumBusy=0; // desocupa a unidade
 				end
 				MemBusy=0;
 				if(pc>=lastPC)
 					done=1;
-				for(i=0;i<ROBSIZE;i=i+1)
-					if(ReordenationBufferBusy[i]==1)
+				for(i=0;i<RESERVATIONSIZE;i=i+1) // verifica se ha algo pra executar 
+					if(reservationStationAddBusy[i]==1|reservationStationMulBusy[i]==1|reservationStationLdBusy[i]==1|reservationStationStBusy[i]==1)
 						done=0;
 				if(done==0)
 					clockCount=clockCount+1;
 			end
 		end
-		
-		// TODO Arrumar Store
-		// TODO Arrumar BNE
-		// TODO Deletar estacao de reserva do store
-		// TODO no CDB marcar estacao de reserva como disponivel
-		
+	
 		initial 
 		begin
 
@@ -1106,9 +1166,9 @@ module TomasPuto
 		end
 		
 		// Instrucao	 ID 
-		instrMem[1]=16'b0001000100010001; // r1=r1+r1
-		instrMem[2]=16'b0111000000010010; // beq 0 r1==r2
-		lastPC=3;
+		instrMem[0]=16'b0001000000010010; // r0=r1+r2
+		instrMem[1]=16'b0001000000000011;	// r0=r0+r3
+		lastPC=2;
 		// END
 		
 		pc=0;
@@ -1157,51 +1217,51 @@ endmodule
 
 
 /*//Programa 1 - Soma com dependencia verdadeira
-instrMem[0]=16'b0001000000010010; // r0=r1+r2
-instrMem[1]=16'b0001000000000011;	// r0=r0+r3
-lastPC=2;
+	instrMem[0]=16'b0001000000010010; // r0=r1+r2
+	instrMem[1]=16'b0001000000000011;	// r0=r0+r3
+	lastPC=2;
 *///Fim do Programa 1 ---------------
 
 /*//Programa 2 - Soma com hazard estrutural
-instrMem[0]=16'b0001000000010010; // r0=r1+r2
-instrMem[1]=16'b0001000100010011;	// r1=r1+r3
-lastPC=2;
+	instrMem[0]=16'b0001000000010010; // r0=r1+r2
+	instrMem[1]=16'b0001000100010011;	// r1=r1+r3
+	lastPC=2;
 *///Fim do Programa 2 ---------------
 
 /*//Programa 3 - Dependencia CDB
-instrMem[0]=16'b0011000000010010; // r0=r1*r2
-instrMem[1]=16'b0011000100010011;	// r1=r1*r3
-instrMem[2]=16'b0001010001010110;	// r4=r5+r6
-lastPC=3;
+	instrMem[0]=16'b0011000000010010; // r0=r1*r2
+	instrMem[1]=16'b0011000100010011;	// r1=r1*r3
+	instrMem[2]=16'b0001010001010110;	// r4=r5+r6
+	lastPC=3;
 *///Fim do Programa 3 ---------------
 
 /*//Programa 4 - Estacao de reserva cheia
-instrMem[0]=16'b0011000000010010; // r0=r1*r2
-instrMem[1]=16'b0011000100010011;	// r1=r1*r3
-instrMem[2]=16'b0001010001010110;	// r4=r5+r6
-lastPC=3;
+	instrMem[0]=16'b0001000000010010; // r0=r1+r2
+	instrMem[1]=16'b0001000100010011;	// r1=r1+r3
+	instrMem[2]=16'b0001010001010110;	// r4=r5+r6
+	lastPC=3;
 *///Fim do Programa 4 ---------------
 
 /*//Programa 5 - Load/Store
-instrMem[0]=16'b0101001100000010; // ld r3 0(r2)
-instrMem[1]=16'b0001001100110111; // r3=r3+r7
-instrMem[2]=16'b0110001100000010; // sd r3 1(r1)
-instrMem[3]=16'b0101000000000010; // ld r0 2(r0)
-lastPC=4;
+	instrMem[0]=16'b0101001100000010; // ld r3 0(r2)
+	instrMem[1]=16'b0001001100110111; // r3=r3+r7
+	instrMem[2]=16'b0110001100010001; // sd r3 1(r1)
+	instrMem[3]=16'b0101000000100000; // ld r0 2(r0)
+	lastPC=4;
 *///Fim do Programa 5 ---------------
 
 /*//Programa 6 - BEQ
-instrMem[1]=16'b0001000100010001; // r1=r1+r1
-instrMem[2]=16'b0111000000010010; // beq 0 r1==r2
-lastPC=3;
+	instrMem[1]=16'b0001000100010001; // r1=r1+r1
+	instrMem[2]=16'b0111000000010010; // beq 0 r1==r2
+	lastPC=3;
 *///Fim do Programa 6 ---------------
 
 /*//Programa 7 - Desvio/Load/Store
-instrMem[0]=16'b0101001100000010; // ld r3 0(r2)
-instrMem[1]=16'b0001001100110111; // r3=r3+r7
-instrMem[2]=16'b0001001000000001; // r2=r0+r1
-instrMem[3]=16'b0011010000110010; // r4=r3*r2
-instrMem[4]=16'b0110010000000010; // sd r4 0(r2)
-instrMem[5]=16'b0111000001000111; // beq 0 r4==r7
-lastPC=6;
+	instrMem[0]=16'b0101001100000010; // ld r3 0(r2)
+	instrMem[1]=16'b0001001100110111; // r3=r3+r7
+	instrMem[2]=16'b0001001000000001; // r2=r0+r1
+	instrMem[3]=16'b0011010000110010; // r4=r3*r2
+	instrMem[4]=16'b0110010000000010; // sd r4 0(r2)
+	instrMem[5]=16'b0111000001000111; // beq 0 r4==r7
+	lastPC=6;
 *///Fim do Programa 7 ---------------

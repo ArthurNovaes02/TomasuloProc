@@ -1,0 +1,6 @@
+
+State Machine - |TomasPuto|TomasuloEspec:tomas|SumOp
+Name SumOp.00 SumOp.10 SumOp.01 
+SumOp.00 0 0 0 
+SumOp.01 1 0 1 
+SumOp.10 1 1 0 

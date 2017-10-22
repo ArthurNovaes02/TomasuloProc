@@ -1,5 +1,5 @@
 TimeQuest Timing Analyzer report for TomasPuto
-Thu Oct 12 20:58:42 2017
+Sun Oct 22 14:36:36 2017
 Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -16,19 +16,36 @@ Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edit
   8. Slow Model Recovery Summary
   9. Slow Model Removal Summary
  10. Slow Model Minimum Pulse Width Summary
- 11. Slow Model Datasheet Report
- 12. Fast Model Setup Summary
- 13. Fast Model Hold Summary
- 14. Fast Model Recovery Summary
- 15. Fast Model Removal Summary
- 16. Fast Model Minimum Pulse Width Summary
- 17. Fast Model Datasheet Report
- 18. Multicorner Timing Analysis Summary
- 19. Clock Transfers
- 20. Report TCCS
- 21. Report RSKM
- 22. Unconstrained Paths
- 23. TimeQuest Timing Analyzer Messages
+ 11. Slow Model Setup: 'clock'
+ 12. Slow Model Hold: 'clock'
+ 13. Slow Model Minimum Pulse Width: 'clock'
+ 14. Setup Times
+ 15. Hold Times
+ 16. Clock to Output Times
+ 17. Minimum Clock to Output Times
+ 18. Fast Model Setup Summary
+ 19. Fast Model Hold Summary
+ 20. Fast Model Recovery Summary
+ 21. Fast Model Removal Summary
+ 22. Fast Model Minimum Pulse Width Summary
+ 23. Fast Model Setup: 'clock'
+ 24. Fast Model Hold: 'clock'
+ 25. Fast Model Minimum Pulse Width: 'clock'
+ 26. Setup Times
+ 27. Hold Times
+ 28. Clock to Output Times
+ 29. Minimum Clock to Output Times
+ 30. Multicorner Timing Analysis Summary
+ 31. Setup Times
+ 32. Hold Times
+ 33. Clock to Output Times
+ 34. Minimum Clock to Output Times
+ 35. Setup Transfers
+ 36. Hold Transfers
+ 37. Report TCCS
+ 38. Report RSKM
+ 39. Unconstrained Paths
+ 40. TimeQuest Timing Analyzer Messages
 
 
 
@@ -75,28 +92,41 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +----------------------------+--------+
 
 
-----------
-; Clocks ;
-----------
-No clocks to report.
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Clocks                                                                                                                                                                            ;
++------------+------+--------+------------+-------+-------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+-----------+
+; Clock Name ; Type ; Period ; Frequency  ; Rise  ; Fall  ; Duty Cycle ; Divide by ; Multiply by ; Phase ; Offset ; Edge List ; Edge Shift ; Inverted ; Master ; Source ; Targets   ;
++------------+------+--------+------------+-------+-------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+-----------+
+; clock      ; Base ; 1.000  ; 1000.0 MHz ; 0.000 ; 0.500 ;            ;           ;             ;       ;        ;           ;            ;          ;        ;        ; { clock } ;
++------------+------+--------+------------+-------+-------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+-----------+
 
 
----------------------------
-; Slow Model Fmax Summary ;
----------------------------
-No paths to report.
++-------------------------------------------------+
+; Slow Model Fmax Summary                         ;
++-----------+-----------------+------------+------+
+; Fmax      ; Restricted Fmax ; Clock Name ; Note ;
++-----------+-----------------+------------+------+
+; 27.03 MHz ; 27.03 MHz       ; clock      ;      ;
++-----------+-----------------+------------+------+
+This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
 
 
-----------------------------
-; Slow Model Setup Summary ;
-----------------------------
-No paths to report.
++---------------------------------+
+; Slow Model Setup Summary        ;
++-------+---------+---------------+
+; Clock ; Slack   ; End Point TNS ;
++-------+---------+---------------+
+; clock ; -35.991 ; -1613.756     ;
++-------+---------+---------------+
 
 
----------------------------
-; Slow Model Hold Summary ;
----------------------------
-No paths to report.
++-------------------------------+
+; Slow Model Hold Summary       ;
++-------+-------+---------------+
+; Clock ; Slack ; End Point TNS ;
++-------+-------+---------------+
+; clock ; 0.391 ; 0.000         ;
++-------+-------+---------------+
 
 
 -------------------------------
@@ -111,28 +141,391 @@ No paths to report.
 No paths to report.
 
 
-------------------------------------------
++----------------------------------------+
 ; Slow Model Minimum Pulse Width Summary ;
-------------------------------------------
-No paths to report.
++-------+--------+-----------------------+
+; Clock ; Slack  ; End Point TNS         ;
++-------+--------+-----------------------+
+; clock ; -1.380 ; -104.380              ;
++-------+--------+-----------------------+
 
 
--------------------------------
-; Slow Model Datasheet Report ;
--------------------------------
-Nothing to report.
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Slow Model Setup: 'clock'                                                                                                                                                           ;
++---------+------------------------------------------------+----------------------------------------------------+--------------+-------------+--------------+------------+------------+
+; Slack   ; From Node                                      ; To Node                                            ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++---------+------------------------------------------------+----------------------------------------------------+--------------+-------------+--------------+------------+------------+
+; -35.991 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|reservationStationAddJusy[1]   ; clock        ; clock       ; 1.000        ; -0.007     ; 37.020     ;
+; -35.882 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|reservationStationAddJusy[1]   ; clock        ; clock       ; 1.000        ; -0.004     ; 36.914     ;
+; -35.859 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|reservationStationAddJusy[1]   ; clock        ; clock       ; 1.000        ; -0.003     ; 36.892     ;
+; -35.848 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|reservationStationAddJusy[1]   ; clock        ; clock       ; 1.000        ; -0.003     ; 36.881     ;
+; -35.800 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|reservationStationAddKusy[1]   ; clock        ; clock       ; 1.000        ; -0.036     ; 36.800     ;
+; -35.791 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|reservationStationAddKusy[0]   ; clock        ; clock       ; 1.000        ; -0.036     ; 36.791     ;
+; -35.738 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|reservationStationAddJusy[0]   ; clock        ; clock       ; 1.000        ; -0.003     ; 36.771     ;
+; -35.691 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|reservationStationAddKusy[1]   ; clock        ; clock       ; 1.000        ; -0.033     ; 36.694     ;
+; -35.683 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|reservationStationAddJusy[1]   ; clock        ; clock       ; 1.000        ; -0.004     ; 36.715     ;
+; -35.682 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|reservationStationAddKusy[0]   ; clock        ; clock       ; 1.000        ; -0.033     ; 36.685     ;
+; -35.668 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|reservationStationAddKusy[1]   ; clock        ; clock       ; 1.000        ; -0.032     ; 36.672     ;
+; -35.659 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|reservationStationAddKusy[0]   ; clock        ; clock       ; 1.000        ; -0.032     ; 36.663     ;
+; -35.657 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|reservationStationAddKusy[1]   ; clock        ; clock       ; 1.000        ; -0.032     ; 36.661     ;
+; -35.648 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|reservationStationAddKusy[0]   ; clock        ; clock       ; 1.000        ; -0.032     ; 36.652     ;
+; -35.629 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|reservationStationAddJusy[0]   ; clock        ; clock       ; 1.000        ; 0.000      ; 36.665     ;
+; -35.606 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|reservationStationAddJusy[0]   ; clock        ; clock       ; 1.000        ; 0.001      ; 36.643     ;
+; -35.595 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|reservationStationAddJusy[0]   ; clock        ; clock       ; 1.000        ; 0.001      ; 36.632     ;
+; -35.492 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|reservationStationAddKusy[1]   ; clock        ; clock       ; 1.000        ; -0.033     ; 36.495     ;
+; -35.483 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|reservationStationAddKusy[0]   ; clock        ; clock       ; 1.000        ; -0.033     ; 36.486     ;
+; -35.430 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|reservationStationAddJusy[0]   ; clock        ; clock       ; 1.000        ; 0.000      ; 36.466     ;
+; -35.368 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|reservationStationAddJusy[1]   ; clock        ; clock       ; 1.000        ; -0.003     ; 36.401     ;
+; -35.350 ; TomasuloEspec:tomas|ReordenationBufferIndex[2] ; TomasuloEspec:tomas|reservationStationAddJusy[1]   ; clock        ; clock       ; 1.000        ; -0.003     ; 36.383     ;
+; -35.177 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|reservationStationAddKusy[1]   ; clock        ; clock       ; 1.000        ; -0.032     ; 36.181     ;
+; -35.168 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|reservationStationAddKusy[0]   ; clock        ; clock       ; 1.000        ; -0.032     ; 36.172     ;
+; -35.159 ; TomasuloEspec:tomas|ReordenationBufferIndex[2] ; TomasuloEspec:tomas|reservationStationAddKusy[1]   ; clock        ; clock       ; 1.000        ; -0.032     ; 36.163     ;
+; -35.150 ; TomasuloEspec:tomas|ReordenationBufferIndex[2] ; TomasuloEspec:tomas|reservationStationAddKusy[0]   ; clock        ; clock       ; 1.000        ; -0.032     ; 36.154     ;
+; -35.115 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|reservationStationAddJusy[0]   ; clock        ; clock       ; 1.000        ; 0.001      ; 36.152     ;
+; -35.097 ; TomasuloEspec:tomas|ReordenationBufferIndex[2] ; TomasuloEspec:tomas|reservationStationAddJusy[0]   ; clock        ; clock       ; 1.000        ; 0.001      ; 36.134     ;
+; -34.602 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[2] ; clock        ; clock       ; 1.000        ; -0.032     ; 35.606     ;
+; -34.493 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[2] ; clock        ; clock       ; 1.000        ; -0.029     ; 35.500     ;
+; -34.470 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|ReordenationBufferHaveValue[2] ; clock        ; clock       ; 1.000        ; -0.028     ; 35.478     ;
+; -34.459 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|ReordenationBufferHaveValue[2] ; clock        ; clock       ; 1.000        ; -0.028     ; 35.467     ;
+; -34.386 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[0] ; clock        ; clock       ; 1.000        ; -0.003     ; 35.419     ;
+; -34.352 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|ReordenationBufferBusy[1]      ; clock        ; clock       ; 1.000        ; 0.000      ; 35.388     ;
+; -34.346 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[1] ; clock        ; clock       ; 1.000        ; 0.000      ; 35.382     ;
+; -34.308 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[3] ; clock        ; clock       ; 1.000        ; -0.003     ; 35.341     ;
+; -34.294 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[2] ; clock        ; clock       ; 1.000        ; -0.029     ; 35.301     ;
+; -34.277 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[0] ; clock        ; clock       ; 1.000        ; 0.000      ; 35.313     ;
+; -34.254 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|ReordenationBufferHaveValue[0] ; clock        ; clock       ; 1.000        ; 0.001      ; 35.291     ;
+; -34.243 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|ReordenationBufferHaveValue[0] ; clock        ; clock       ; 1.000        ; 0.001      ; 35.280     ;
+; -34.243 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|ReordenationBufferBusy[1]      ; clock        ; clock       ; 1.000        ; 0.003      ; 35.282     ;
+; -34.238 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|ReordenationBufferBusy[2]      ; clock        ; clock       ; 1.000        ; -0.004     ; 35.270     ;
+; -34.237 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[1] ; clock        ; clock       ; 1.000        ; 0.003      ; 35.276     ;
+; -34.220 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|ReordenationBufferBusy[1]      ; clock        ; clock       ; 1.000        ; 0.004      ; 35.260     ;
+; -34.214 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|ReordenationBufferHaveValue[1] ; clock        ; clock       ; 1.000        ; 0.004      ; 35.254     ;
+; -34.209 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|ReordenationBufferBusy[1]      ; clock        ; clock       ; 1.000        ; 0.004      ; 35.249     ;
+; -34.203 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|ReordenationBufferHaveValue[1] ; clock        ; clock       ; 1.000        ; 0.004      ; 35.243     ;
+; -34.199 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[3] ; clock        ; clock       ; 1.000        ; 0.000      ; 35.235     ;
+; -34.176 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|ReordenationBufferHaveValue[3] ; clock        ; clock       ; 1.000        ; 0.001      ; 35.213     ;
+; -34.165 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|ReordenationBufferHaveValue[3] ; clock        ; clock       ; 1.000        ; 0.001      ; 35.202     ;
+; -34.129 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|ReordenationBufferBusy[2]      ; clock        ; clock       ; 1.000        ; -0.001     ; 35.164     ;
+; -34.106 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|ReordenationBufferBusy[2]      ; clock        ; clock       ; 1.000        ; 0.000      ; 35.142     ;
+; -34.095 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|ReordenationBufferBusy[2]      ; clock        ; clock       ; 1.000        ; 0.000      ; 35.131     ;
+; -34.078 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[0] ; clock        ; clock       ; 1.000        ; 0.000      ; 35.114     ;
+; -34.044 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|ReordenationBufferBusy[1]      ; clock        ; clock       ; 1.000        ; 0.003      ; 35.083     ;
+; -34.038 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[1] ; clock        ; clock       ; 1.000        ; 0.003      ; 35.077     ;
+; -34.000 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[3] ; clock        ; clock       ; 1.000        ; 0.000      ; 35.036     ;
+; -33.989 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|ReordenationBufferBusy[0]      ; clock        ; clock       ; 1.000        ; -0.003     ; 35.022     ;
+; -33.979 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[2] ; clock        ; clock       ; 1.000        ; -0.028     ; 34.987     ;
+; -33.961 ; TomasuloEspec:tomas|ReordenationBufferIndex[2] ; TomasuloEspec:tomas|ReordenationBufferHaveValue[2] ; clock        ; clock       ; 1.000        ; -0.028     ; 34.969     ;
+; -33.930 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|ReordenationBufferBusy[2]      ; clock        ; clock       ; 1.000        ; -0.001     ; 34.965     ;
+; -33.880 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|ReordenationBufferBusy[0]      ; clock        ; clock       ; 1.000        ; 0.000      ; 34.916     ;
+; -33.857 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|ReordenationBufferBusy[0]      ; clock        ; clock       ; 1.000        ; 0.001      ; 34.894     ;
+; -33.846 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|ReordenationBufferBusy[0]      ; clock        ; clock       ; 1.000        ; 0.001      ; 34.883     ;
+; -33.780 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|ReordenationBufferBusy[3]      ; clock        ; clock       ; 1.000        ; -0.003     ; 34.813     ;
+; -33.767 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|ReordenationBufferIndex[0]     ; clock        ; clock       ; 1.000        ; -0.004     ; 34.799     ;
+; -33.767 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|ReordenationBufferIndex[1]     ; clock        ; clock       ; 1.000        ; -0.004     ; 34.799     ;
+; -33.767 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|ReordenationBufferIndex[2]     ; clock        ; clock       ; 1.000        ; -0.004     ; 34.799     ;
+; -33.763 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[0] ; clock        ; clock       ; 1.000        ; 0.001      ; 34.800     ;
+; -33.745 ; TomasuloEspec:tomas|ReordenationBufferIndex[2] ; TomasuloEspec:tomas|ReordenationBufferHaveValue[0] ; clock        ; clock       ; 1.000        ; 0.001      ; 34.782     ;
+; -33.729 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|ReordenationBufferBusy[1]      ; clock        ; clock       ; 1.000        ; 0.004      ; 34.769     ;
+; -33.723 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[1] ; clock        ; clock       ; 1.000        ; 0.004      ; 34.763     ;
+; -33.711 ; TomasuloEspec:tomas|ReordenationBufferIndex[2] ; TomasuloEspec:tomas|ReordenationBufferBusy[1]      ; clock        ; clock       ; 1.000        ; 0.004      ; 34.751     ;
+; -33.705 ; TomasuloEspec:tomas|ReordenationBufferIndex[2] ; TomasuloEspec:tomas|ReordenationBufferHaveValue[1] ; clock        ; clock       ; 1.000        ; 0.004      ; 34.745     ;
+; -33.685 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[3] ; clock        ; clock       ; 1.000        ; 0.001      ; 34.722     ;
+; -33.681 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|ReordenationBufferBusy[0]      ; clock        ; clock       ; 1.000        ; 0.000      ; 34.717     ;
+; -33.671 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|ReordenationBufferBusy[3]      ; clock        ; clock       ; 1.000        ; 0.000      ; 34.707     ;
+; -33.667 ; TomasuloEspec:tomas|ReordenationBufferIndex[2] ; TomasuloEspec:tomas|ReordenationBufferHaveValue[3] ; clock        ; clock       ; 1.000        ; 0.001      ; 34.704     ;
+; -33.658 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|ReordenationBufferIndex[0]     ; clock        ; clock       ; 1.000        ; -0.001     ; 34.693     ;
+; -33.658 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|ReordenationBufferIndex[1]     ; clock        ; clock       ; 1.000        ; -0.001     ; 34.693     ;
+; -33.658 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|ReordenationBufferIndex[2]     ; clock        ; clock       ; 1.000        ; -0.001     ; 34.693     ;
+; -33.648 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|ReordenationBufferBusy[3]      ; clock        ; clock       ; 1.000        ; 0.001      ; 34.685     ;
+; -33.637 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|ReordenationBufferBusy[3]      ; clock        ; clock       ; 1.000        ; 0.001      ; 34.674     ;
+; -33.635 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|ReordenationBufferIndex[0]     ; clock        ; clock       ; 1.000        ; 0.000      ; 34.671     ;
+; -33.635 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|ReordenationBufferIndex[1]     ; clock        ; clock       ; 1.000        ; 0.000      ; 34.671     ;
+; -33.635 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|ReordenationBufferIndex[2]     ; clock        ; clock       ; 1.000        ; 0.000      ; 34.671     ;
+; -33.624 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|ReordenationBufferIndex[0]     ; clock        ; clock       ; 1.000        ; 0.000      ; 34.660     ;
+; -33.624 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|ReordenationBufferIndex[1]     ; clock        ; clock       ; 1.000        ; 0.000      ; 34.660     ;
+; -33.624 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|ReordenationBufferIndex[2]     ; clock        ; clock       ; 1.000        ; 0.000      ; 34.660     ;
+; -33.615 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|ReordenationBufferBusy[2]      ; clock        ; clock       ; 1.000        ; 0.000      ; 34.651     ;
+; -33.597 ; TomasuloEspec:tomas|ReordenationBufferIndex[2] ; TomasuloEspec:tomas|ReordenationBufferBusy[2]      ; clock        ; clock       ; 1.000        ; 0.000      ; 34.633     ;
+; -33.472 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|ReordenationBufferBusy[3]      ; clock        ; clock       ; 1.000        ; 0.000      ; 34.508     ;
+; -33.459 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|ReordenationBufferIndex[0]     ; clock        ; clock       ; 1.000        ; -0.001     ; 34.494     ;
+; -33.459 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|ReordenationBufferIndex[1]     ; clock        ; clock       ; 1.000        ; -0.001     ; 34.494     ;
+; -33.459 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|ReordenationBufferIndex[2]     ; clock        ; clock       ; 1.000        ; -0.001     ; 34.494     ;
+; -33.366 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|ReordenationBufferBusy[0]      ; clock        ; clock       ; 1.000        ; 0.001      ; 34.403     ;
+; -33.348 ; TomasuloEspec:tomas|ReordenationBufferIndex[2] ; TomasuloEspec:tomas|ReordenationBufferBusy[0]      ; clock        ; clock       ; 1.000        ; 0.001      ; 34.385     ;
+; -33.157 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|ReordenationBufferBusy[3]      ; clock        ; clock       ; 1.000        ; 0.001      ; 34.194     ;
+; -33.144 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|ReordenationBufferIndex[0]     ; clock        ; clock       ; 1.000        ; 0.000      ; 34.180     ;
+; -33.144 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|ReordenationBufferIndex[1]     ; clock        ; clock       ; 1.000        ; 0.000      ; 34.180     ;
++---------+------------------------------------------------+----------------------------------------------------+--------------+-------------+--------------+------------+------------+
 
 
-----------------------------
-; Fast Model Setup Summary ;
-----------------------------
-No paths to report.
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Slow Model Hold: 'clock'                                                                                                                                                                    ;
++-------+-------------------------------------------------------+-------------------------------------------------------+--------------+-------------+--------------+------------+------------+
+; Slack ; From Node                                             ; To Node                                               ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++-------+-------------------------------------------------------+-------------------------------------------------------+--------------+-------------+--------------+------------+------------+
+; 0.391 ; TomasuloEspec:tomas|SumIndex[2]                       ; TomasuloEspec:tomas|SumIndex[2]                       ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferLabel[3][8]     ; TomasuloEspec:tomas|ReordenationBufferLabel[3][8]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|pc[4]                             ; TomasuloEspec:tomas|pc[4]                             ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferIndex[0]        ; TomasuloEspec:tomas|ReordenationBufferIndex[0]        ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|pc[5]                             ; TomasuloEspec:tomas|pc[5]                             ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|clockCount[0]                     ; TomasuloEspec:tomas|clockCount[0]                     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferLabel[2][8]     ; TomasuloEspec:tomas|ReordenationBufferLabel[2][8]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferLabel[0][8]     ; TomasuloEspec:tomas|ReordenationBufferLabel[0][8]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferLabel[1][8]     ; TomasuloEspec:tomas|ReordenationBufferLabel[1][8]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|registersBankLabel[0][8]          ; TomasuloEspec:tomas|registersBankLabel[0][8]          ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddQj[0][8]     ; TomasuloEspec:tomas|reservationStationAddQj[0][8]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|registersBankHaveLabel[0]         ; TomasuloEspec:tomas|registersBankHaveLabel[0]         ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddQj[0][7]     ; TomasuloEspec:tomas|reservationStationAddQj[0][7]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|registersBankLabel[0][7]          ; TomasuloEspec:tomas|registersBankLabel[0][7]          ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferLabel[3][7]     ; TomasuloEspec:tomas|ReordenationBufferLabel[3][7]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferLabel[0][7]     ; TomasuloEspec:tomas|ReordenationBufferLabel[0][7]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferLabel[2][7]     ; TomasuloEspec:tomas|ReordenationBufferLabel[2][7]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferLabel[1][7]     ; TomasuloEspec:tomas|ReordenationBufferLabel[1][7]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferLabel[3][6]     ; TomasuloEspec:tomas|ReordenationBufferLabel[3][6]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferLabel[2][6]     ; TomasuloEspec:tomas|ReordenationBufferLabel[2][6]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferLabel[1][6]     ; TomasuloEspec:tomas|ReordenationBufferLabel[1][6]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferLabel[0][6]     ; TomasuloEspec:tomas|ReordenationBufferLabel[0][6]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddQj[0][6]     ; TomasuloEspec:tomas|reservationStationAddQj[0][6]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|registersBankLabel[0][6]          ; TomasuloEspec:tomas|registersBankLabel[0][6]          ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddQj[0][1]     ; TomasuloEspec:tomas|reservationStationAddQj[0][1]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddQj[0][2]     ; TomasuloEspec:tomas|reservationStationAddQj[0][2]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddQj[0][4]     ; TomasuloEspec:tomas|reservationStationAddQj[0][4]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddQj[0][3]     ; TomasuloEspec:tomas|reservationStationAddQj[0][3]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddQj[0][0]     ; TomasuloEspec:tomas|reservationStationAddQj[0][0]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferLabel[2][0]     ; TomasuloEspec:tomas|ReordenationBufferLabel[2][0]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferLabel[0][0]     ; TomasuloEspec:tomas|ReordenationBufferLabel[0][0]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferLabel[3][0]     ; TomasuloEspec:tomas|ReordenationBufferLabel[3][0]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferLabel[1][0]     ; TomasuloEspec:tomas|ReordenationBufferLabel[1][0]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferLabel[0][9]     ; TomasuloEspec:tomas|ReordenationBufferLabel[0][9]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferLabel[2][9]     ; TomasuloEspec:tomas|ReordenationBufferLabel[2][9]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferLabel[3][9]     ; TomasuloEspec:tomas|ReordenationBufferLabel[3][9]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferLabel[1][9]     ; TomasuloEspec:tomas|ReordenationBufferLabel[1][9]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddQj[0][10]    ; TomasuloEspec:tomas|reservationStationAddQj[0][10]    ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|registersBankLabel[0][10]         ; TomasuloEspec:tomas|registersBankLabel[0][10]         ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|registersBankLabel[0][9]          ; TomasuloEspec:tomas|registersBankLabel[0][9]          ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddQj[0][9]     ; TomasuloEspec:tomas|reservationStationAddQj[0][9]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferLabel[3][10]    ; TomasuloEspec:tomas|ReordenationBufferLabel[3][10]    ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferLabel[0][10]    ; TomasuloEspec:tomas|ReordenationBufferLabel[0][10]    ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferLabel[1][10]    ; TomasuloEspec:tomas|ReordenationBufferLabel[1][10]    ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|ReordenationBufferLabel[2][10]    ; TomasuloEspec:tomas|ReordenationBufferLabel[2][10]    ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddQj[0][5]     ; TomasuloEspec:tomas|reservationStationAddQj[0][5]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddLabel[1][7]  ; TomasuloEspec:tomas|reservationStationAddLabel[1][7]  ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddLabel[0][7]  ; TomasuloEspec:tomas|reservationStationAddLabel[0][7]  ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddLabel[1][6]  ; TomasuloEspec:tomas|reservationStationAddLabel[1][6]  ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddLabel[0][6]  ; TomasuloEspec:tomas|reservationStationAddLabel[0][6]  ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddLabel[0][10] ; TomasuloEspec:tomas|reservationStationAddLabel[0][10] ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddLabel[1][10] ; TomasuloEspec:tomas|reservationStationAddLabel[1][10] ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddLabel[0][0]  ; TomasuloEspec:tomas|reservationStationAddLabel[0][0]  ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddLabel[1][0]  ; TomasuloEspec:tomas|reservationStationAddLabel[1][0]  ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddLabel[1][8]  ; TomasuloEspec:tomas|reservationStationAddLabel[1][8]  ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddLabel[0][8]  ; TomasuloEspec:tomas|reservationStationAddLabel[0][8]  ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddLabel[0][9]  ; TomasuloEspec:tomas|reservationStationAddLabel[0][9]  ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddLabel[1][9]  ; TomasuloEspec:tomas|reservationStationAddLabel[1][9]  ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|pc[0]                             ; TomasuloEspec:tomas|pc[0]                             ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddQj[1][0]     ; TomasuloEspec:tomas|reservationStationAddQj[1][0]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddQj[1][1]     ; TomasuloEspec:tomas|reservationStationAddQj[1][1]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddQj[1][10]    ; TomasuloEspec:tomas|reservationStationAddQj[1][10]    ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddQj[1][5]     ; TomasuloEspec:tomas|reservationStationAddQj[1][5]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddQj[1][4]     ; TomasuloEspec:tomas|reservationStationAddQj[1][4]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddQj[1][3]     ; TomasuloEspec:tomas|reservationStationAddQj[1][3]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddQj[1][2]     ; TomasuloEspec:tomas|reservationStationAddQj[1][2]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddQj[1][6]     ; TomasuloEspec:tomas|reservationStationAddQj[1][6]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddQj[1][7]     ; TomasuloEspec:tomas|reservationStationAddQj[1][7]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddQj[1][9]     ; TomasuloEspec:tomas|reservationStationAddQj[1][9]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|reservationStationAddQj[1][8]     ; TomasuloEspec:tomas|reservationStationAddQj[1][8]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.391 ; TomasuloEspec:tomas|SumDone                           ; TomasuloEspec:tomas|SumDone                           ; clock        ; clock       ; 0.000        ; 0.000      ; 0.657      ;
+; 0.537 ; TomasuloEspec:tomas|registersBankLabel[0][8]          ; TomasuloEspec:tomas|reservationStationAddQj[0][8]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.803      ;
+; 0.548 ; TomasuloEspec:tomas|SumBusy                           ; TomasuloEspec:tomas|SumIndex[2]                       ; clock        ; clock       ; 0.000        ; 0.000      ; 0.814      ;
+; 0.549 ; TomasuloEspec:tomas|SumBusy                           ; TomasuloEspec:tomas|SumDone                           ; clock        ; clock       ; 0.000        ; 0.000      ; 0.815      ;
+; 0.673 ; TomasuloEspec:tomas|registersBankLabel[0][9]          ; TomasuloEspec:tomas|reservationStationAddQj[0][9]     ; clock        ; clock       ; 0.000        ; -0.001     ; 0.938      ;
+; 0.777 ; TomasuloEspec:tomas|SumState[0]                       ; TomasuloEspec:tomas|SumDone                           ; clock        ; clock       ; 0.000        ; 0.000      ; 1.043      ;
+; 0.803 ; TomasuloEspec:tomas|clockCount[3]                     ; TomasuloEspec:tomas|clockCount[3]                     ; clock        ; clock       ; 0.000        ; 0.000      ; 1.069      ;
+; 0.808 ; TomasuloEspec:tomas|registersBankLabel[0][7]          ; TomasuloEspec:tomas|reservationStationAddQj[0][7]     ; clock        ; clock       ; 0.000        ; 0.000      ; 1.074      ;
+; 0.827 ; TomasuloEspec:tomas|clockCount[4]                     ; TomasuloEspec:tomas|clockCount[4]                     ; clock        ; clock       ; 0.000        ; 0.000      ; 1.093      ;
+; 0.834 ; TomasuloEspec:tomas|clockCount[1]                     ; TomasuloEspec:tomas|clockCount[1]                     ; clock        ; clock       ; 0.000        ; 0.000      ; 1.100      ;
+; 0.835 ; TomasuloEspec:tomas|clockCount[2]                     ; TomasuloEspec:tomas|clockCount[2]                     ; clock        ; clock       ; 0.000        ; 0.000      ; 1.101      ;
+; 0.842 ; TomasuloEspec:tomas|registersBankLabel[0][6]          ; TomasuloEspec:tomas|reservationStationAddQj[0][6]     ; clock        ; clock       ; 0.000        ; 0.000      ; 1.108      ;
+; 0.853 ; TomasuloEspec:tomas|pc[0]                             ; TomasuloEspec:tomas|reservationStationAddLabel[1][0]  ; clock        ; clock       ; 0.000        ; 0.000      ; 1.119      ;
+; 0.924 ; TomasuloEspec:tomas|registersBankLabel[0][10]         ; TomasuloEspec:tomas|reservationStationAddQj[1][10]    ; clock        ; clock       ; 0.000        ; 0.000      ; 1.190      ;
+; 0.927 ; TomasuloEspec:tomas|registersBankLabel[0][8]          ; TomasuloEspec:tomas|reservationStationAddQj[1][8]     ; clock        ; clock       ; 0.000        ; 0.000      ; 1.193      ;
+; 0.946 ; TomasuloEspec:tomas|SumBusy                           ; TomasuloEspec:tomas|SumBusy                           ; clock        ; clock       ; 0.000        ; 0.000      ; 1.212      ;
+; 0.953 ; TomasuloEspec:tomas|SumBusy                           ; TomasuloEspec:tomas|SumState[0]                       ; clock        ; clock       ; 0.000        ; 0.000      ; 1.219      ;
+; 1.008 ; TomasuloEspec:tomas|clockCount[2]                     ; TomasuloEspec:tomas|registersBankLabel[0][8]          ; clock        ; clock       ; 0.000        ; -0.001     ; 1.273      ;
+; 1.045 ; TomasuloEspec:tomas|clockCount[4]                     ; TomasuloEspec:tomas|reservationStationAddLabel[0][10] ; clock        ; clock       ; 0.000        ; 0.007      ; 1.318      ;
+; 1.049 ; TomasuloEspec:tomas|clockCount[4]                     ; TomasuloEspec:tomas|registersBankLabel[0][10]         ; clock        ; clock       ; 0.000        ; 0.004      ; 1.319      ;
+; 1.049 ; TomasuloEspec:tomas|clockCount[4]                     ; TomasuloEspec:tomas|reservationStationAddLabel[1][10] ; clock        ; clock       ; 0.000        ; 0.007      ; 1.322      ;
+; 1.056 ; TomasuloEspec:tomas|registersBankLabel[0][0]          ; TomasuloEspec:tomas|registersBankLabel[0][0]          ; clock        ; clock       ; 0.000        ; 0.000      ; 1.322      ;
+; 1.085 ; TomasuloEspec:tomas|reservationStationAddBusy[1]      ; TomasuloEspec:tomas|reservationStationAddBusy[1]      ; clock        ; clock       ; 0.000        ; 0.000      ; 1.351      ;
+; 1.171 ; TomasuloEspec:tomas|registersBankLabel[0][7]          ; TomasuloEspec:tomas|reservationStationAddQj[1][7]     ; clock        ; clock       ; 0.000        ; 0.000      ; 1.437      ;
+; 1.186 ; TomasuloEspec:tomas|registersBankLabel[0][5]          ; TomasuloEspec:tomas|registersBankLabel[0][5]          ; clock        ; clock       ; 0.000        ; 0.000      ; 1.452      ;
+; 1.202 ; TomasuloEspec:tomas|SumDone                           ; TomasuloEspec:tomas|SumBusy                           ; clock        ; clock       ; 0.000        ; 0.000      ; 1.468      ;
+; 1.209 ; TomasuloEspec:tomas|SumState[0]                       ; TomasuloEspec:tomas|SumState[0]                       ; clock        ; clock       ; 0.000        ; 0.000      ; 1.475      ;
+; 1.221 ; TomasuloEspec:tomas|clockCount[2]                     ; TomasuloEspec:tomas|clockCount[3]                     ; clock        ; clock       ; 0.000        ; 0.000      ; 1.487      ;
+; 1.221 ; TomasuloEspec:tomas|clockCount[1]                     ; TomasuloEspec:tomas|clockCount[2]                     ; clock        ; clock       ; 0.000        ; 0.000      ; 1.487      ;
+; 1.232 ; TomasuloEspec:tomas|registersBankLabel[0][0]          ; TomasuloEspec:tomas|reservationStationAddQj[1][0]     ; clock        ; clock       ; 0.000        ; 0.000      ; 1.498      ;
++-------+-------------------------------------------------------+-------------------------------------------------------+--------------+-------------+--------------+------------+------------+
 
 
----------------------------
-; Fast Model Hold Summary ;
----------------------------
-No paths to report.
++-------------------------------------------------------------------------------------------------------------------------------------+
+; Slow Model Minimum Pulse Width: 'clock'                                                                                             ;
++--------+--------------+----------------+------------------+-------+------------+----------------------------------------------------+
+; Slack  ; Actual Width ; Required Width ; Type             ; Clock ; Clock Edge ; Target                                             ;
++--------+--------------+----------------+------------------+-------+------------+----------------------------------------------------+
+; -1.380 ; 1.000        ; 2.380          ; Port Rate        ; clock ; Rise       ; clock                                              ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferBusy[0]      ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferBusy[0]      ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferBusy[1]      ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferBusy[1]      ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferBusy[2]      ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferBusy[2]      ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferBusy[3]      ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferBusy[3]      ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferHaveValue[0] ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferHaveValue[0] ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferHaveValue[1] ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferHaveValue[1] ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferHaveValue[2] ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferHaveValue[2] ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferHaveValue[3] ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferHaveValue[3] ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferIndex[0]     ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferIndex[0]     ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferIndex[1]     ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferIndex[1]     ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferIndex[2]     ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferIndex[2]     ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[0][0]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[0][0]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[0][10] ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[0][10] ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[0][6]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[0][6]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[0][7]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[0][7]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[0][8]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[0][8]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[0][9]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[0][9]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[1][0]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[1][0]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[1][10] ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[1][10] ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[1][6]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[1][6]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[1][7]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[1][7]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[1][8]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[1][8]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[1][9]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[1][9]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[2][0]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[2][0]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[2][10] ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[2][10] ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[2][6]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[2][6]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[2][7]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[2][7]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[2][8]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[2][8]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[2][9]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[2][9]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[3][0]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[3][0]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[3][10] ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[3][10] ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[3][6]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[3][6]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[3][7]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[3][7]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[3][8]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[3][8]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[3][9]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[3][9]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|SumBusy                        ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|SumBusy                        ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|SumDone                        ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|SumDone                        ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|SumIndex[2]                    ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|SumIndex[2]                    ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|SumState[0]                    ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|SumState[0]                    ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|clockCount[0]                  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|clockCount[0]                  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|clockCount[1]                  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|clockCount[1]                  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|clockCount[2]                  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|clockCount[2]                  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|clockCount[3]                  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|clockCount[3]                  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|clockCount[4]                  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|clockCount[4]                  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|done                           ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|done                           ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|pc[0]                          ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|pc[0]                          ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|pc[1]                          ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|pc[1]                          ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|pc[2]                          ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|pc[2]                          ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|pc[3]                          ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|pc[3]                          ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|pc[4]                          ;
++--------+--------------+----------------+------------------+-------+------------+----------------------------------------------------+
+
+
++-----------------------------------------------------------------------+
+; Setup Times                                                           ;
++-----------+------------+-------+-------+------------+-----------------+
+; Data Port ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++-----------+------------+-------+-------+------------+-----------------+
+; run       ; clock      ; 2.700 ; 2.700 ; Rise       ; clock           ;
++-----------+------------+-------+-------+------------+-----------------+
+
+
++-----------------------------------------------------------------------+
+; Hold Times                                                            ;
++-----------+------------+-------+-------+------------+-----------------+
+; Data Port ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++-----------+------------+-------+-------+------------+-----------------+
+; run       ; clock      ; 0.242 ; 0.242 ; Rise       ; clock           ;
++-----------+------------+-------+-------+------------+-----------------+
+
+
++-----------------------------------------------------------------------+
+; Clock to Output Times                                                 ;
++-----------+------------+-------+-------+------------+-----------------+
+; Data Port ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++-----------+------------+-------+-------+------------+-----------------+
+; done      ; clock      ; 7.026 ; 7.026 ; Rise       ; clock           ;
++-----------+------------+-------+-------+------------+-----------------+
+
+
++-----------------------------------------------------------------------+
+; Minimum Clock to Output Times                                         ;
++-----------+------------+-------+-------+------------+-----------------+
+; Data Port ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++-----------+------------+-------+-------+------------+-----------------+
+; done      ; clock      ; 7.026 ; 7.026 ; Rise       ; clock           ;
++-----------+------------+-------+-------+------------+-----------------+
+
+
++---------------------------------+
+; Fast Model Setup Summary        ;
++-------+---------+---------------+
+; Clock ; Slack   ; End Point TNS ;
++-------+---------+---------------+
+; clock ; -14.905 ; -646.597      ;
++-------+---------+---------------+
+
+
++-------------------------------+
+; Fast Model Hold Summary       ;
++-------+-------+---------------+
+; Clock ; Slack ; End Point TNS ;
++-------+-------+---------------+
+; clock ; 0.215 ; 0.000         ;
++-------+-------+---------------+
 
 
 -------------------------------
@@ -147,32 +540,441 @@ No paths to report.
 No paths to report.
 
 
-------------------------------------------
++----------------------------------------+
 ; Fast Model Minimum Pulse Width Summary ;
-------------------------------------------
-No paths to report.
++-------+--------+-----------------------+
+; Clock ; Slack  ; End Point TNS         ;
++-------+--------+-----------------------+
+; clock ; -1.380 ; -104.380              ;
++-------+--------+-----------------------+
 
 
--------------------------------
-; Fast Model Datasheet Report ;
--------------------------------
-Nothing to report.
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Fast Model Setup: 'clock'                                                                                                                                                           ;
++---------+------------------------------------------------+----------------------------------------------------+--------------+-------------+--------------+------------+------------+
+; Slack   ; From Node                                      ; To Node                                            ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++---------+------------------------------------------------+----------------------------------------------------+--------------+-------------+--------------+------------+------------+
+; -14.905 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|reservationStationAddJusy[1]   ; clock        ; clock       ; 1.000        ; -0.007     ; 15.930     ;
+; -14.853 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|reservationStationAddJusy[1]   ; clock        ; clock       ; 1.000        ; -0.004     ; 15.881     ;
+; -14.840 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|reservationStationAddJusy[1]   ; clock        ; clock       ; 1.000        ; -0.003     ; 15.869     ;
+; -14.839 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|reservationStationAddJusy[1]   ; clock        ; clock       ; 1.000        ; -0.003     ; 15.868     ;
+; -14.815 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|reservationStationAddKusy[1]   ; clock        ; clock       ; 1.000        ; -0.031     ; 15.816     ;
+; -14.812 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|reservationStationAddKusy[0]   ; clock        ; clock       ; 1.000        ; -0.031     ; 15.813     ;
+; -14.774 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|reservationStationAddJusy[1]   ; clock        ; clock       ; 1.000        ; -0.004     ; 15.802     ;
+; -14.763 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|reservationStationAddKusy[1]   ; clock        ; clock       ; 1.000        ; -0.028     ; 15.767     ;
+; -14.760 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|reservationStationAddKusy[0]   ; clock        ; clock       ; 1.000        ; -0.028     ; 15.764     ;
+; -14.754 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|reservationStationAddJusy[0]   ; clock        ; clock       ; 1.000        ; -0.003     ; 15.783     ;
+; -14.750 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|reservationStationAddKusy[1]   ; clock        ; clock       ; 1.000        ; -0.027     ; 15.755     ;
+; -14.749 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|reservationStationAddKusy[1]   ; clock        ; clock       ; 1.000        ; -0.027     ; 15.754     ;
+; -14.747 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|reservationStationAddKusy[0]   ; clock        ; clock       ; 1.000        ; -0.027     ; 15.752     ;
+; -14.746 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|reservationStationAddKusy[0]   ; clock        ; clock       ; 1.000        ; -0.027     ; 15.751     ;
+; -14.702 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|reservationStationAddJusy[0]   ; clock        ; clock       ; 1.000        ; 0.000      ; 15.734     ;
+; -14.689 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|reservationStationAddJusy[0]   ; clock        ; clock       ; 1.000        ; 0.001      ; 15.722     ;
+; -14.688 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|reservationStationAddJusy[0]   ; clock        ; clock       ; 1.000        ; 0.001      ; 15.721     ;
+; -14.684 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|reservationStationAddKusy[1]   ; clock        ; clock       ; 1.000        ; -0.028     ; 15.688     ;
+; -14.681 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|reservationStationAddKusy[0]   ; clock        ; clock       ; 1.000        ; -0.028     ; 15.685     ;
+; -14.648 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|reservationStationAddJusy[1]   ; clock        ; clock       ; 1.000        ; -0.003     ; 15.677     ;
+; -14.635 ; TomasuloEspec:tomas|ReordenationBufferIndex[2] ; TomasuloEspec:tomas|reservationStationAddJusy[1]   ; clock        ; clock       ; 1.000        ; -0.003     ; 15.664     ;
+; -14.623 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|reservationStationAddJusy[0]   ; clock        ; clock       ; 1.000        ; 0.000      ; 15.655     ;
+; -14.558 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|reservationStationAddKusy[1]   ; clock        ; clock       ; 1.000        ; -0.027     ; 15.563     ;
+; -14.555 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|reservationStationAddKusy[0]   ; clock        ; clock       ; 1.000        ; -0.027     ; 15.560     ;
+; -14.545 ; TomasuloEspec:tomas|ReordenationBufferIndex[2] ; TomasuloEspec:tomas|reservationStationAddKusy[1]   ; clock        ; clock       ; 1.000        ; -0.027     ; 15.550     ;
+; -14.542 ; TomasuloEspec:tomas|ReordenationBufferIndex[2] ; TomasuloEspec:tomas|reservationStationAddKusy[0]   ; clock        ; clock       ; 1.000        ; -0.027     ; 15.547     ;
+; -14.497 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|reservationStationAddJusy[0]   ; clock        ; clock       ; 1.000        ; 0.001      ; 15.530     ;
+; -14.484 ; TomasuloEspec:tomas|ReordenationBufferIndex[2] ; TomasuloEspec:tomas|reservationStationAddJusy[0]   ; clock        ; clock       ; 1.000        ; 0.001      ; 15.517     ;
+; -14.318 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[2] ; clock        ; clock       ; 1.000        ; -0.027     ; 15.323     ;
+; -14.266 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[2] ; clock        ; clock       ; 1.000        ; -0.024     ; 15.274     ;
+; -14.253 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|ReordenationBufferHaveValue[2] ; clock        ; clock       ; 1.000        ; -0.023     ; 15.262     ;
+; -14.252 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|ReordenationBufferHaveValue[2] ; clock        ; clock       ; 1.000        ; -0.023     ; 15.261     ;
+; -14.195 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|ReordenationBufferBusy[1]      ; clock        ; clock       ; 1.000        ; 0.000      ; 15.227     ;
+; -14.187 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[2] ; clock        ; clock       ; 1.000        ; -0.024     ; 15.195     ;
+; -14.182 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[0] ; clock        ; clock       ; 1.000        ; -0.003     ; 15.211     ;
+; -14.159 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[1] ; clock        ; clock       ; 1.000        ; 0.000      ; 15.191     ;
+; -14.152 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[3] ; clock        ; clock       ; 1.000        ; -0.003     ; 15.181     ;
+; -14.146 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|ReordenationBufferBusy[2]      ; clock        ; clock       ; 1.000        ; -0.004     ; 15.174     ;
+; -14.143 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|ReordenationBufferBusy[1]      ; clock        ; clock       ; 1.000        ; 0.003      ; 15.178     ;
+; -14.130 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|ReordenationBufferBusy[1]      ; clock        ; clock       ; 1.000        ; 0.004      ; 15.166     ;
+; -14.130 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[0] ; clock        ; clock       ; 1.000        ; 0.000      ; 15.162     ;
+; -14.129 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|ReordenationBufferBusy[1]      ; clock        ; clock       ; 1.000        ; 0.004      ; 15.165     ;
+; -14.117 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|ReordenationBufferHaveValue[0] ; clock        ; clock       ; 1.000        ; 0.001      ; 15.150     ;
+; -14.116 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|ReordenationBufferHaveValue[0] ; clock        ; clock       ; 1.000        ; 0.001      ; 15.149     ;
+; -14.107 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[1] ; clock        ; clock       ; 1.000        ; 0.003      ; 15.142     ;
+; -14.100 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[3] ; clock        ; clock       ; 1.000        ; 0.000      ; 15.132     ;
+; -14.094 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|ReordenationBufferHaveValue[1] ; clock        ; clock       ; 1.000        ; 0.004      ; 15.130     ;
+; -14.094 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|ReordenationBufferBusy[2]      ; clock        ; clock       ; 1.000        ; -0.001     ; 15.125     ;
+; -14.093 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|ReordenationBufferHaveValue[1] ; clock        ; clock       ; 1.000        ; 0.004      ; 15.129     ;
+; -14.087 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|ReordenationBufferHaveValue[3] ; clock        ; clock       ; 1.000        ; 0.001      ; 15.120     ;
+; -14.086 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|ReordenationBufferHaveValue[3] ; clock        ; clock       ; 1.000        ; 0.001      ; 15.119     ;
+; -14.081 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|ReordenationBufferBusy[2]      ; clock        ; clock       ; 1.000        ; 0.000      ; 15.113     ;
+; -14.080 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|ReordenationBufferBusy[2]      ; clock        ; clock       ; 1.000        ; 0.000      ; 15.112     ;
+; -14.064 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|ReordenationBufferBusy[1]      ; clock        ; clock       ; 1.000        ; 0.003      ; 15.099     ;
+; -14.061 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[2] ; clock        ; clock       ; 1.000        ; -0.023     ; 15.070     ;
+; -14.051 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[0] ; clock        ; clock       ; 1.000        ; 0.000      ; 15.083     ;
+; -14.048 ; TomasuloEspec:tomas|ReordenationBufferIndex[2] ; TomasuloEspec:tomas|ReordenationBufferHaveValue[2] ; clock        ; clock       ; 1.000        ; -0.023     ; 15.057     ;
+; -14.028 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[1] ; clock        ; clock       ; 1.000        ; 0.003      ; 15.063     ;
+; -14.021 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[3] ; clock        ; clock       ; 1.000        ; 0.000      ; 15.053     ;
+; -14.015 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|ReordenationBufferBusy[0]      ; clock        ; clock       ; 1.000        ; -0.003     ; 15.044     ;
+; -14.015 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|ReordenationBufferBusy[2]      ; clock        ; clock       ; 1.000        ; -0.001     ; 15.046     ;
+; -14.010 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|ReordenationBufferIndex[0]     ; clock        ; clock       ; 1.000        ; -0.004     ; 15.038     ;
+; -14.010 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|ReordenationBufferIndex[1]     ; clock        ; clock       ; 1.000        ; -0.004     ; 15.038     ;
+; -14.010 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|ReordenationBufferIndex[2]     ; clock        ; clock       ; 1.000        ; -0.004     ; 15.038     ;
+; -13.963 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|ReordenationBufferBusy[0]      ; clock        ; clock       ; 1.000        ; 0.000      ; 14.995     ;
+; -13.958 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|ReordenationBufferIndex[0]     ; clock        ; clock       ; 1.000        ; -0.001     ; 14.989     ;
+; -13.958 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|ReordenationBufferIndex[1]     ; clock        ; clock       ; 1.000        ; -0.001     ; 14.989     ;
+; -13.958 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|ReordenationBufferIndex[2]     ; clock        ; clock       ; 1.000        ; -0.001     ; 14.989     ;
+; -13.950 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|ReordenationBufferBusy[0]      ; clock        ; clock       ; 1.000        ; 0.001      ; 14.983     ;
+; -13.949 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|ReordenationBufferBusy[0]      ; clock        ; clock       ; 1.000        ; 0.001      ; 14.982     ;
+; -13.945 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|ReordenationBufferIndex[0]     ; clock        ; clock       ; 1.000        ; 0.000      ; 14.977     ;
+; -13.945 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|ReordenationBufferIndex[1]     ; clock        ; clock       ; 1.000        ; 0.000      ; 14.977     ;
+; -13.945 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|ReordenationBufferIndex[2]     ; clock        ; clock       ; 1.000        ; 0.000      ; 14.977     ;
+; -13.944 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|ReordenationBufferIndex[0]     ; clock        ; clock       ; 1.000        ; 0.000      ; 14.976     ;
+; -13.944 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|ReordenationBufferIndex[1]     ; clock        ; clock       ; 1.000        ; 0.000      ; 14.976     ;
+; -13.944 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|ReordenationBufferIndex[2]     ; clock        ; clock       ; 1.000        ; 0.000      ; 14.976     ;
+; -13.938 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|ReordenationBufferBusy[1]      ; clock        ; clock       ; 1.000        ; 0.004      ; 14.974     ;
+; -13.937 ; TomasuloEspec:tomas|ReordenationBufferBusy[1]  ; TomasuloEspec:tomas|ReordenationBufferBusy[3]      ; clock        ; clock       ; 1.000        ; -0.003     ; 14.966     ;
+; -13.925 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[0] ; clock        ; clock       ; 1.000        ; 0.001      ; 14.958     ;
+; -13.925 ; TomasuloEspec:tomas|ReordenationBufferIndex[2] ; TomasuloEspec:tomas|ReordenationBufferBusy[1]      ; clock        ; clock       ; 1.000        ; 0.004      ; 14.961     ;
+; -13.912 ; TomasuloEspec:tomas|ReordenationBufferIndex[2] ; TomasuloEspec:tomas|ReordenationBufferHaveValue[0] ; clock        ; clock       ; 1.000        ; 0.001      ; 14.945     ;
+; -13.902 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[1] ; clock        ; clock       ; 1.000        ; 0.004      ; 14.938     ;
+; -13.895 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|ReordenationBufferHaveValue[3] ; clock        ; clock       ; 1.000        ; 0.001      ; 14.928     ;
+; -13.889 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|ReordenationBufferBusy[2]      ; clock        ; clock       ; 1.000        ; 0.000      ; 14.921     ;
+; -13.889 ; TomasuloEspec:tomas|ReordenationBufferIndex[2] ; TomasuloEspec:tomas|ReordenationBufferHaveValue[1] ; clock        ; clock       ; 1.000        ; 0.004      ; 14.925     ;
+; -13.885 ; TomasuloEspec:tomas|ReordenationBufferBusy[0]  ; TomasuloEspec:tomas|ReordenationBufferBusy[3]      ; clock        ; clock       ; 1.000        ; 0.000      ; 14.917     ;
+; -13.884 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|ReordenationBufferBusy[0]      ; clock        ; clock       ; 1.000        ; 0.000      ; 14.916     ;
+; -13.882 ; TomasuloEspec:tomas|ReordenationBufferIndex[2] ; TomasuloEspec:tomas|ReordenationBufferHaveValue[3] ; clock        ; clock       ; 1.000        ; 0.001      ; 14.915     ;
+; -13.879 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|ReordenationBufferIndex[0]     ; clock        ; clock       ; 1.000        ; -0.001     ; 14.910     ;
+; -13.879 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|ReordenationBufferIndex[1]     ; clock        ; clock       ; 1.000        ; -0.001     ; 14.910     ;
+; -13.879 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|ReordenationBufferIndex[2]     ; clock        ; clock       ; 1.000        ; -0.001     ; 14.910     ;
+; -13.876 ; TomasuloEspec:tomas|ReordenationBufferIndex[2] ; TomasuloEspec:tomas|ReordenationBufferBusy[2]      ; clock        ; clock       ; 1.000        ; 0.000      ; 14.908     ;
+; -13.872 ; TomasuloEspec:tomas|ReordenationBufferIndex[0] ; TomasuloEspec:tomas|ReordenationBufferBusy[3]      ; clock        ; clock       ; 1.000        ; 0.001      ; 14.905     ;
+; -13.871 ; TomasuloEspec:tomas|ReordenationBufferIndex[1] ; TomasuloEspec:tomas|ReordenationBufferBusy[3]      ; clock        ; clock       ; 1.000        ; 0.001      ; 14.904     ;
+; -13.806 ; TomasuloEspec:tomas|ReordenationBufferBusy[3]  ; TomasuloEspec:tomas|ReordenationBufferBusy[3]      ; clock        ; clock       ; 1.000        ; 0.000      ; 14.838     ;
+; -13.758 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|ReordenationBufferBusy[0]      ; clock        ; clock       ; 1.000        ; 0.001      ; 14.791     ;
+; -13.753 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|ReordenationBufferIndex[0]     ; clock        ; clock       ; 1.000        ; 0.000      ; 14.785     ;
+; -13.753 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|ReordenationBufferIndex[1]     ; clock        ; clock       ; 1.000        ; 0.000      ; 14.785     ;
+; -13.753 ; TomasuloEspec:tomas|ReordenationBufferBusy[2]  ; TomasuloEspec:tomas|ReordenationBufferIndex[2]     ; clock        ; clock       ; 1.000        ; 0.000      ; 14.785     ;
+; -13.745 ; TomasuloEspec:tomas|ReordenationBufferIndex[2] ; TomasuloEspec:tomas|ReordenationBufferBusy[0]      ; clock        ; clock       ; 1.000        ; 0.001      ; 14.778     ;
++---------+------------------------------------------------+----------------------------------------------------+--------------+-------------+--------------+------------+------------+
 
 
-+----------------------------------------------------------------------------+
-; Multicorner Timing Analysis Summary                                        ;
-+------------------+-------+------+----------+---------+---------------------+
-; Clock            ; Setup ; Hold ; Recovery ; Removal ; Minimum Pulse Width ;
-+------------------+-------+------+----------+---------+---------------------+
-; Worst-case Slack ; N/A   ; N/A  ; N/A      ; N/A     ; N/A                 ;
-; Design-wide TNS  ; 0.0   ; 0.0  ; 0.0      ; 0.0     ; 0.0                 ;
-+------------------+-------+------+----------+---------+---------------------+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Fast Model Hold: 'clock'                                                                                                                                                                    ;
++-------+-------------------------------------------------------+-------------------------------------------------------+--------------+-------------+--------------+------------+------------+
+; Slack ; From Node                                             ; To Node                                               ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++-------+-------------------------------------------------------+-------------------------------------------------------+--------------+-------------+--------------+------------+------------+
+; 0.215 ; TomasuloEspec:tomas|SumIndex[2]                       ; TomasuloEspec:tomas|SumIndex[2]                       ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferLabel[3][8]     ; TomasuloEspec:tomas|ReordenationBufferLabel[3][8]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|pc[4]                             ; TomasuloEspec:tomas|pc[4]                             ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferIndex[0]        ; TomasuloEspec:tomas|ReordenationBufferIndex[0]        ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|pc[5]                             ; TomasuloEspec:tomas|pc[5]                             ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|clockCount[0]                     ; TomasuloEspec:tomas|clockCount[0]                     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferLabel[2][8]     ; TomasuloEspec:tomas|ReordenationBufferLabel[2][8]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferLabel[0][8]     ; TomasuloEspec:tomas|ReordenationBufferLabel[0][8]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferLabel[1][8]     ; TomasuloEspec:tomas|ReordenationBufferLabel[1][8]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|registersBankLabel[0][8]          ; TomasuloEspec:tomas|registersBankLabel[0][8]          ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddQj[0][8]     ; TomasuloEspec:tomas|reservationStationAddQj[0][8]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|registersBankHaveLabel[0]         ; TomasuloEspec:tomas|registersBankHaveLabel[0]         ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddQj[0][7]     ; TomasuloEspec:tomas|reservationStationAddQj[0][7]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|registersBankLabel[0][7]          ; TomasuloEspec:tomas|registersBankLabel[0][7]          ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferLabel[3][7]     ; TomasuloEspec:tomas|ReordenationBufferLabel[3][7]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferLabel[0][7]     ; TomasuloEspec:tomas|ReordenationBufferLabel[0][7]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferLabel[2][7]     ; TomasuloEspec:tomas|ReordenationBufferLabel[2][7]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferLabel[1][7]     ; TomasuloEspec:tomas|ReordenationBufferLabel[1][7]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferLabel[3][6]     ; TomasuloEspec:tomas|ReordenationBufferLabel[3][6]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferLabel[2][6]     ; TomasuloEspec:tomas|ReordenationBufferLabel[2][6]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferLabel[1][6]     ; TomasuloEspec:tomas|ReordenationBufferLabel[1][6]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferLabel[0][6]     ; TomasuloEspec:tomas|ReordenationBufferLabel[0][6]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddQj[0][6]     ; TomasuloEspec:tomas|reservationStationAddQj[0][6]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|registersBankLabel[0][6]          ; TomasuloEspec:tomas|registersBankLabel[0][6]          ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddQj[0][1]     ; TomasuloEspec:tomas|reservationStationAddQj[0][1]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddQj[0][2]     ; TomasuloEspec:tomas|reservationStationAddQj[0][2]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddQj[0][4]     ; TomasuloEspec:tomas|reservationStationAddQj[0][4]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddQj[0][3]     ; TomasuloEspec:tomas|reservationStationAddQj[0][3]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddQj[0][0]     ; TomasuloEspec:tomas|reservationStationAddQj[0][0]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferLabel[2][0]     ; TomasuloEspec:tomas|ReordenationBufferLabel[2][0]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferLabel[0][0]     ; TomasuloEspec:tomas|ReordenationBufferLabel[0][0]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferLabel[3][0]     ; TomasuloEspec:tomas|ReordenationBufferLabel[3][0]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferLabel[1][0]     ; TomasuloEspec:tomas|ReordenationBufferLabel[1][0]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferLabel[0][9]     ; TomasuloEspec:tomas|ReordenationBufferLabel[0][9]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferLabel[2][9]     ; TomasuloEspec:tomas|ReordenationBufferLabel[2][9]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferLabel[3][9]     ; TomasuloEspec:tomas|ReordenationBufferLabel[3][9]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferLabel[1][9]     ; TomasuloEspec:tomas|ReordenationBufferLabel[1][9]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddQj[0][10]    ; TomasuloEspec:tomas|reservationStationAddQj[0][10]    ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|registersBankLabel[0][10]         ; TomasuloEspec:tomas|registersBankLabel[0][10]         ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|registersBankLabel[0][9]          ; TomasuloEspec:tomas|registersBankLabel[0][9]          ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddQj[0][9]     ; TomasuloEspec:tomas|reservationStationAddQj[0][9]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferLabel[3][10]    ; TomasuloEspec:tomas|ReordenationBufferLabel[3][10]    ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferLabel[0][10]    ; TomasuloEspec:tomas|ReordenationBufferLabel[0][10]    ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferLabel[1][10]    ; TomasuloEspec:tomas|ReordenationBufferLabel[1][10]    ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|ReordenationBufferLabel[2][10]    ; TomasuloEspec:tomas|ReordenationBufferLabel[2][10]    ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddQj[0][5]     ; TomasuloEspec:tomas|reservationStationAddQj[0][5]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddLabel[1][7]  ; TomasuloEspec:tomas|reservationStationAddLabel[1][7]  ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddLabel[0][7]  ; TomasuloEspec:tomas|reservationStationAddLabel[0][7]  ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddLabel[1][6]  ; TomasuloEspec:tomas|reservationStationAddLabel[1][6]  ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddLabel[0][6]  ; TomasuloEspec:tomas|reservationStationAddLabel[0][6]  ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddLabel[0][10] ; TomasuloEspec:tomas|reservationStationAddLabel[0][10] ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddLabel[1][10] ; TomasuloEspec:tomas|reservationStationAddLabel[1][10] ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddLabel[0][0]  ; TomasuloEspec:tomas|reservationStationAddLabel[0][0]  ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddLabel[1][0]  ; TomasuloEspec:tomas|reservationStationAddLabel[1][0]  ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddLabel[1][8]  ; TomasuloEspec:tomas|reservationStationAddLabel[1][8]  ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddLabel[0][8]  ; TomasuloEspec:tomas|reservationStationAddLabel[0][8]  ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddLabel[0][9]  ; TomasuloEspec:tomas|reservationStationAddLabel[0][9]  ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddLabel[1][9]  ; TomasuloEspec:tomas|reservationStationAddLabel[1][9]  ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|pc[0]                             ; TomasuloEspec:tomas|pc[0]                             ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddQj[1][0]     ; TomasuloEspec:tomas|reservationStationAddQj[1][0]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddQj[1][1]     ; TomasuloEspec:tomas|reservationStationAddQj[1][1]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddQj[1][10]    ; TomasuloEspec:tomas|reservationStationAddQj[1][10]    ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddQj[1][5]     ; TomasuloEspec:tomas|reservationStationAddQj[1][5]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddQj[1][4]     ; TomasuloEspec:tomas|reservationStationAddQj[1][4]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddQj[1][3]     ; TomasuloEspec:tomas|reservationStationAddQj[1][3]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddQj[1][2]     ; TomasuloEspec:tomas|reservationStationAddQj[1][2]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddQj[1][6]     ; TomasuloEspec:tomas|reservationStationAddQj[1][6]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddQj[1][7]     ; TomasuloEspec:tomas|reservationStationAddQj[1][7]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddQj[1][9]     ; TomasuloEspec:tomas|reservationStationAddQj[1][9]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|reservationStationAddQj[1][8]     ; TomasuloEspec:tomas|reservationStationAddQj[1][8]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.215 ; TomasuloEspec:tomas|SumDone                           ; TomasuloEspec:tomas|SumDone                           ; clock        ; clock       ; 0.000        ; 0.000      ; 0.367      ;
+; 0.251 ; TomasuloEspec:tomas|registersBankLabel[0][8]          ; TomasuloEspec:tomas|reservationStationAddQj[0][8]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.403      ;
+; 0.258 ; TomasuloEspec:tomas|SumBusy                           ; TomasuloEspec:tomas|SumIndex[2]                       ; clock        ; clock       ; 0.000        ; 0.000      ; 0.410      ;
+; 0.259 ; TomasuloEspec:tomas|SumBusy                           ; TomasuloEspec:tomas|SumDone                           ; clock        ; clock       ; 0.000        ; 0.000      ; 0.411      ;
+; 0.316 ; TomasuloEspec:tomas|registersBankLabel[0][9]          ; TomasuloEspec:tomas|reservationStationAddQj[0][9]     ; clock        ; clock       ; 0.000        ; -0.001     ; 0.467      ;
+; 0.359 ; TomasuloEspec:tomas|clockCount[3]                     ; TomasuloEspec:tomas|clockCount[3]                     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.511      ;
+; 0.366 ; TomasuloEspec:tomas|clockCount[4]                     ; TomasuloEspec:tomas|clockCount[4]                     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.518      ;
+; 0.369 ; TomasuloEspec:tomas|clockCount[1]                     ; TomasuloEspec:tomas|clockCount[1]                     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.521      ;
+; 0.369 ; TomasuloEspec:tomas|clockCount[2]                     ; TomasuloEspec:tomas|clockCount[2]                     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.521      ;
+; 0.369 ; TomasuloEspec:tomas|registersBankLabel[0][7]          ; TomasuloEspec:tomas|reservationStationAddQj[0][7]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.521      ;
+; 0.371 ; TomasuloEspec:tomas|SumState[0]                       ; TomasuloEspec:tomas|SumDone                           ; clock        ; clock       ; 0.000        ; 0.000      ; 0.523      ;
+; 0.378 ; TomasuloEspec:tomas|registersBankLabel[0][6]          ; TomasuloEspec:tomas|reservationStationAddQj[0][6]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.530      ;
+; 0.382 ; TomasuloEspec:tomas|pc[0]                             ; TomasuloEspec:tomas|reservationStationAddLabel[1][0]  ; clock        ; clock       ; 0.000        ; 0.000      ; 0.534      ;
+; 0.407 ; TomasuloEspec:tomas|registersBankLabel[0][10]         ; TomasuloEspec:tomas|reservationStationAddQj[1][10]    ; clock        ; clock       ; 0.000        ; 0.000      ; 0.559      ;
+; 0.412 ; TomasuloEspec:tomas|registersBankLabel[0][8]          ; TomasuloEspec:tomas|reservationStationAddQj[1][8]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.564      ;
+; 0.424 ; TomasuloEspec:tomas|SumBusy                           ; TomasuloEspec:tomas|SumBusy                           ; clock        ; clock       ; 0.000        ; 0.000      ; 0.576      ;
+; 0.431 ; TomasuloEspec:tomas|SumBusy                           ; TomasuloEspec:tomas|SumState[0]                       ; clock        ; clock       ; 0.000        ; 0.000      ; 0.583      ;
+; 0.457 ; TomasuloEspec:tomas|clockCount[2]                     ; TomasuloEspec:tomas|registersBankLabel[0][8]          ; clock        ; clock       ; 0.000        ; -0.002     ; 0.607      ;
+; 0.463 ; TomasuloEspec:tomas|registersBankLabel[0][0]          ; TomasuloEspec:tomas|registersBankLabel[0][0]          ; clock        ; clock       ; 0.000        ; 0.000      ; 0.615      ;
+; 0.475 ; TomasuloEspec:tomas|reservationStationAddBusy[1]      ; TomasuloEspec:tomas|reservationStationAddBusy[1]      ; clock        ; clock       ; 0.000        ; 0.000      ; 0.627      ;
+; 0.477 ; TomasuloEspec:tomas|clockCount[4]                     ; TomasuloEspec:tomas|registersBankLabel[0][10]         ; clock        ; clock       ; 0.000        ; 0.003      ; 0.632      ;
+; 0.481 ; TomasuloEspec:tomas|clockCount[4]                     ; TomasuloEspec:tomas|reservationStationAddLabel[0][10] ; clock        ; clock       ; 0.000        ; 0.006      ; 0.639      ;
+; 0.483 ; TomasuloEspec:tomas|clockCount[4]                     ; TomasuloEspec:tomas|reservationStationAddLabel[1][10] ; clock        ; clock       ; 0.000        ; 0.006      ; 0.641      ;
+; 0.509 ; TomasuloEspec:tomas|clockCount[2]                     ; TomasuloEspec:tomas|clockCount[3]                     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.661      ;
+; 0.509 ; TomasuloEspec:tomas|clockCount[1]                     ; TomasuloEspec:tomas|clockCount[2]                     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.661      ;
+; 0.526 ; TomasuloEspec:tomas|registersBankLabel[0][7]          ; TomasuloEspec:tomas|reservationStationAddQj[1][7]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.678      ;
+; 0.529 ; TomasuloEspec:tomas|SumDone                           ; TomasuloEspec:tomas|SumBusy                           ; clock        ; clock       ; 0.000        ; 0.000      ; 0.681      ;
+; 0.533 ; TomasuloEspec:tomas|registersBankLabel[0][5]          ; TomasuloEspec:tomas|registersBankLabel[0][5]          ; clock        ; clock       ; 0.000        ; 0.000      ; 0.685      ;
+; 0.538 ; TomasuloEspec:tomas|registersBankLabel[0][0]          ; TomasuloEspec:tomas|reservationStationAddQj[1][0]     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.690      ;
+; 0.544 ; TomasuloEspec:tomas|clockCount[1]                     ; TomasuloEspec:tomas|clockCount[3]                     ; clock        ; clock       ; 0.000        ; 0.000      ; 0.696      ;
++-------+-------------------------------------------------------+-------------------------------------------------------+--------------+-------------+--------------+------------+------------+
 
 
--------------------
-; Clock Transfers ;
--------------------
-Nothing to report.
++-------------------------------------------------------------------------------------------------------------------------------------+
+; Fast Model Minimum Pulse Width: 'clock'                                                                                             ;
++--------+--------------+----------------+------------------+-------+------------+----------------------------------------------------+
+; Slack  ; Actual Width ; Required Width ; Type             ; Clock ; Clock Edge ; Target                                             ;
++--------+--------------+----------------+------------------+-------+------------+----------------------------------------------------+
+; -1.380 ; 1.000        ; 2.380          ; Port Rate        ; clock ; Rise       ; clock                                              ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferBusy[0]      ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferBusy[0]      ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferBusy[1]      ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferBusy[1]      ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferBusy[2]      ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferBusy[2]      ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferBusy[3]      ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferBusy[3]      ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferHaveValue[0] ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferHaveValue[0] ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferHaveValue[1] ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferHaveValue[1] ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferHaveValue[2] ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferHaveValue[2] ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferHaveValue[3] ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferHaveValue[3] ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferIndex[0]     ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferIndex[0]     ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferIndex[1]     ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferIndex[1]     ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferIndex[2]     ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferIndex[2]     ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[0][0]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[0][0]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[0][10] ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[0][10] ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[0][6]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[0][6]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[0][7]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[0][7]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[0][8]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[0][8]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[0][9]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[0][9]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[1][0]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[1][0]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[1][10] ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[1][10] ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[1][6]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[1][6]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[1][7]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[1][7]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[1][8]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[1][8]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[1][9]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[1][9]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[2][0]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[2][0]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[2][10] ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[2][10] ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[2][6]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[2][6]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[2][7]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[2][7]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[2][8]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[2][8]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[2][9]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[2][9]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[3][0]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[3][0]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[3][10] ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[3][10] ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[3][6]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[3][6]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[3][7]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[3][7]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[3][8]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[3][8]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[3][9]  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|ReordenationBufferLabel[3][9]  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|SumBusy                        ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|SumBusy                        ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|SumDone                        ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|SumDone                        ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|SumIndex[2]                    ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|SumIndex[2]                    ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|SumState[0]                    ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|SumState[0]                    ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|clockCount[0]                  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|clockCount[0]                  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|clockCount[1]                  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|clockCount[1]                  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|clockCount[2]                  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|clockCount[2]                  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|clockCount[3]                  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|clockCount[3]                  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|clockCount[4]                  ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|clockCount[4]                  ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|done                           ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|done                           ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|pc[0]                          ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|pc[0]                          ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|pc[1]                          ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|pc[1]                          ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|pc[2]                          ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|pc[2]                          ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|pc[3]                          ;
+; -0.500 ; 0.500        ; 1.000          ; Low Pulse Width  ; clock ; Rise       ; TomasuloEspec:tomas|pc[3]                          ;
+; -0.500 ; 0.500        ; 1.000          ; High Pulse Width ; clock ; Rise       ; TomasuloEspec:tomas|pc[4]                          ;
++--------+--------------+----------------+------------------+-------+------------+----------------------------------------------------+
+
+
++-----------------------------------------------------------------------+
+; Setup Times                                                           ;
++-----------+------------+-------+-------+------------+-----------------+
+; Data Port ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++-----------+------------+-------+-------+------------+-----------------+
+; run       ; clock      ; 0.946 ; 0.946 ; Rise       ; clock           ;
++-----------+------------+-------+-------+------------+-----------------+
+
+
++-----------------------------------------------------------------------+
+; Hold Times                                                            ;
++-----------+------------+-------+-------+------------+-----------------+
+; Data Port ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++-----------+------------+-------+-------+------------+-----------------+
+; run       ; clock      ; 0.342 ; 0.342 ; Rise       ; clock           ;
++-----------+------------+-------+-------+------------+-----------------+
+
+
++-----------------------------------------------------------------------+
+; Clock to Output Times                                                 ;
++-----------+------------+-------+-------+------------+-----------------+
+; Data Port ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++-----------+------------+-------+-------+------------+-----------------+
+; done      ; clock      ; 3.962 ; 3.962 ; Rise       ; clock           ;
++-----------+------------+-------+-------+------------+-----------------+
+
+
++-----------------------------------------------------------------------+
+; Minimum Clock to Output Times                                         ;
++-----------+------------+-------+-------+------------+-----------------+
+; Data Port ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++-----------+------------+-------+-------+------------+-----------------+
+; done      ; clock      ; 3.962 ; 3.962 ; Rise       ; clock           ;
++-----------+------------+-------+-------+------------+-----------------+
+
+
++---------------------------------------------------------------------------------+
+; Multicorner Timing Analysis Summary                                             ;
++------------------+-----------+-------+----------+---------+---------------------+
+; Clock            ; Setup     ; Hold  ; Recovery ; Removal ; Minimum Pulse Width ;
++------------------+-----------+-------+----------+---------+---------------------+
+; Worst-case Slack ; -35.991   ; 0.215 ; N/A      ; N/A     ; -1.380              ;
+;  clock           ; -35.991   ; 0.215 ; N/A      ; N/A     ; -1.380              ;
+; Design-wide TNS  ; -1613.756 ; 0.0   ; 0.0      ; 0.0     ; -104.38             ;
+;  clock           ; -1613.756 ; 0.000 ; N/A      ; N/A     ; -104.380            ;
++------------------+-----------+-------+----------+---------+---------------------+
+
+
++-----------------------------------------------------------------------+
+; Setup Times                                                           ;
++-----------+------------+-------+-------+------------+-----------------+
+; Data Port ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++-----------+------------+-------+-------+------------+-----------------+
+; run       ; clock      ; 2.700 ; 2.700 ; Rise       ; clock           ;
++-----------+------------+-------+-------+------------+-----------------+
+
+
++-----------------------------------------------------------------------+
+; Hold Times                                                            ;
++-----------+------------+-------+-------+------------+-----------------+
+; Data Port ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++-----------+------------+-------+-------+------------+-----------------+
+; run       ; clock      ; 0.342 ; 0.342 ; Rise       ; clock           ;
++-----------+------------+-------+-------+------------+-----------------+
+
+
++-----------------------------------------------------------------------+
+; Clock to Output Times                                                 ;
++-----------+------------+-------+-------+------------+-----------------+
+; Data Port ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++-----------+------------+-------+-------+------------+-----------------+
+; done      ; clock      ; 7.026 ; 7.026 ; Rise       ; clock           ;
++-----------+------------+-------+-------+------------+-----------------+
+
+
++-----------------------------------------------------------------------+
+; Minimum Clock to Output Times                                         ;
++-----------+------------+-------+-------+------------+-----------------+
+; Data Port ; Clock Port ; Rise  ; Fall  ; Clock Edge ; Clock Reference ;
++-----------+------------+-------+-------+------------+-----------------+
+; done      ; clock      ; 3.962 ; 3.962 ; Rise       ; clock           ;
++-----------+------------+-------+-------+------------+-----------------+
+
+
++-----------------------------------------------------------------------+
+; Setup Transfers                                                       ;
++------------+----------+--------------+----------+----------+----------+
+; From Clock ; To Clock ; RR Paths     ; FR Paths ; RF Paths ; FF Paths ;
++------------+----------+--------------+----------+----------+----------+
+; clock      ; clock    ; > 2147483647 ; 0        ; 0        ; 0        ;
++------------+----------+--------------+----------+----------+----------+
+Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
+
+
++-----------------------------------------------------------------------+
+; Hold Transfers                                                        ;
++------------+----------+--------------+----------+----------+----------+
+; From Clock ; To Clock ; RR Paths     ; FR Paths ; RF Paths ; FF Paths ;
++------------+----------+--------------+----------+----------+----------+
+; clock      ; clock    ; > 2147483647 ; 0        ; 0        ; 0        ;
++------------+----------+--------------+----------+----------+----------+
+Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
 
 
 ---------------
@@ -194,10 +996,10 @@ No dedicated SERDES Receiver circuitry present in device or used in design
 +---------------------------------+-------+------+
 ; Illegal Clocks                  ; 0     ; 0    ;
 ; Unconstrained Clocks            ; 0     ; 0    ;
-; Unconstrained Input Ports       ; 0     ; 0    ;
-; Unconstrained Input Port Paths  ; 0     ; 0    ;
-; Unconstrained Output Ports      ; 0     ; 0    ;
-; Unconstrained Output Port Paths ; 0     ; 0    ;
+; Unconstrained Input Ports       ; 1     ; 1    ;
+; Unconstrained Input Port Paths  ; 103   ; 103  ;
+; Unconstrained Output Ports      ; 1     ; 1    ;
+; Unconstrained Output Port Paths ; 1     ; 1    ;
 +---------------------------------+-------+------+
 
 
@@ -207,7 +1009,7 @@ No dedicated SERDES Receiver circuitry present in device or used in design
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit TimeQuest Timing Analyzer
     Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-    Info: Processing started: Thu Oct 12 20:58:41 2017
+    Info: Processing started: Sun Oct 22 14:36:34 2017
 Info: Command: quartus_sta TomasPuto -c TomasPuto
 Info: qsta_default_script.tcl version: #1
 Warning (20028): Parallel compilation is not licensed and has been disabled
@@ -215,34 +1017,49 @@ Info (21077): Low junction temperature is 0 degrees C
 Info (21077): High junction temperature is 85 degrees C
 Critical Warning (332012): Synopsys Design Constraints File file not found: 'TomasPuto.sdc'. A Synopsys Design Constraints File is required by the TimeQuest Timing Analyzer to get proper timing constraints. Without it, the Compiler will not properly optimize the design.
 Info (332142): No user constrained base clocks found in the design. Calling "derive_clocks -period 1.0"
-Info (332096): The command derive_clocks did not find any clocks to derive.  No clocks were created or changed.
-Warning (332068): No clocks defined in design.
+Info (332105): Deriving Clocks
+    Info (332105): create_clock -period 1.000 -name clock clock
 Info: Found TIMEQUEST_REPORT_SCRIPT_INCLUDE_DEFAULT_ANALYSIS = ON
-Info (332159): No clocks to report
 Info: Analyzing Slow Model
-Info (332140): No fmax paths to report
-Info (332140): No Setup paths to report
-Info (332140): No Hold paths to report
+Critical Warning (332148): Timing requirements not met
+Info (332146): Worst-case setup slack is -35.991
+    Info (332119):     Slack End Point TNS Clock 
+    Info (332119): ========= ============= =====================
+    Info (332119):   -35.991     -1613.756 clock 
+Info (332146): Worst-case hold slack is 0.391
+    Info (332119):     Slack End Point TNS Clock 
+    Info (332119): ========= ============= =====================
+    Info (332119):     0.391         0.000 clock 
 Info (332140): No Recovery paths to report
 Info (332140): No Removal paths to report
-Info (332140): No Minimum Pulse Width paths to report
+Info (332146): Worst-case minimum pulse width slack is -1.380
+    Info (332119):     Slack End Point TNS Clock 
+    Info (332119): ========= ============= =====================
+    Info (332119):    -1.380      -104.380 clock 
 Info (332001): The selected device family is not supported by the report_metastability command.
 Info: Analyzing Fast Model
-Info (332142): No user constrained base clocks found in the design. Calling "derive_clocks -period 1.0"
-Info (332096): The command derive_clocks did not find any clocks to derive.  No clocks were created or changed.
-Warning (332068): No clocks defined in design.
-Info (332140): No Setup paths to report
-Info (332140): No Hold paths to report
+Critical Warning (332148): Timing requirements not met
+Info (332146): Worst-case setup slack is -14.905
+    Info (332119):     Slack End Point TNS Clock 
+    Info (332119): ========= ============= =====================
+    Info (332119):   -14.905      -646.597 clock 
+Info (332146): Worst-case hold slack is 0.215
+    Info (332119):     Slack End Point TNS Clock 
+    Info (332119): ========= ============= =====================
+    Info (332119):     0.215         0.000 clock 
 Info (332140): No Recovery paths to report
 Info (332140): No Removal paths to report
-Info (332140): No Minimum Pulse Width paths to report
+Info (332146): Worst-case minimum pulse width slack is -1.380
+    Info (332119):     Slack End Point TNS Clock 
+    Info (332119): ========= ============= =====================
+    Info (332119):    -1.380      -104.380 clock 
 Info (332001): The selected device family is not supported by the report_metastability command.
-Info (332101): Design is fully constrained for setup requirements
-Info (332101): Design is fully constrained for hold requirements
+Info (332102): Design is not fully constrained for setup requirements
+Info (332102): Design is not fully constrained for hold requirements
 Info: Quartus II 64-Bit TimeQuest Timing Analyzer was successful. 0 errors, 4 warnings
-    Info: Peak virtual memory: 430 megabytes
-    Info: Processing ended: Thu Oct 12 20:58:42 2017
-    Info: Elapsed time: 00:00:01
+    Info: Peak virtual memory: 447 megabytes
+    Info: Processing ended: Sun Oct 22 14:36:36 2017
+    Info: Elapsed time: 00:00:02
     Info: Total CPU time (on all processors): 00:00:01
 
 
