@@ -1,15 +1,15 @@
-Fitter Status : Successful - Sun Oct 22 14:36:26 2017
+Fitter Status : Successful - Sun Oct 22 22:58:30 2017
 Quartus II 64-Bit Version : 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition
 Revision Name : TomasPuto
 Top-level Entity Name : TomasPuto
 Family : Cyclone II
 Device : EP2C35F672C6
 Timing Models : Final
-Total logic elements : 676 / 33,216 ( 2 % )
-    Total combinational functions : 674 / 33,216 ( 2 % )
-    Dedicated logic registers : 103 / 33,216 ( < 1 % )
-Total registers : 103
-Total pins : 3 / 475 ( < 1 % )
+Total logic elements : 1,305 / 33,216 ( 4 % )
+    Total combinational functions : 1,218 / 33,216 ( 4 % )
+    Dedicated logic registers : 296 / 33,216 ( < 1 % )
+Total registers : 296
+Total pins : 42 / 475 ( 9 % )
 Total virtual pins : 0
 Total memory bits : 0 / 483,840 ( 0 % )
 Embedded Multiplier 9-bit elements : 0 / 70 ( 0 % )

@@ -1,18 +1,25 @@
-module TomasPuto(clock,done,run); // TOPLEVEL
-	input clock,run;
-	output done;
+module TomasPuto(SW[17:0], LEDR[15:0], LEDG[7:0]); // TOPLEVEL
+	output[7:0] LEDG;
+	output [15:0] LEDR;
+	input[17:0] SW;
 
-	TomasuloEspec tomas(clock,done,run);
-
-	//TODO visualizar registradores atraves das chaves
-	//TODO mostrar informações de exec
+	TomasuloEspec tomas(	SW[16],	//clock
+								LEDG[0], //done
+								SW[17],	//run
+								SW[3:0],	//select register to view
+								LEDR);	//regvalue viewer
 endmodule
 
 module TomasuloEspec
 #(parameter RESERVATIONSIZE=2,parameter ROBSIZE=4)
-(clock,done,run);
+(clock,done,run,select,regview);
 	input clock,run;
+	input[3:0] select;
+	output[15:0] regview;
 	output reg done;
+	
+	assign regview=registersBank[select];
+	
 	// InstrucÃµes
 	reg [15:0] instrMem [0:63];//instructions mem
 		reg [5:0] pc;
