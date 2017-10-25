@@ -536,7 +536,7 @@ module TomasuloEspec
 										begin
 											reservationStationMulBusy[i]=1'b1; // Ocupa a posicao
 											reservationStationMulOp[i]=instr1; // Indica operacao da estacao de reserva 
-											reservationStationAddLabel[i]={clockCount[4:0],pc[5:0]}; // Coloca a label na estacao de reserva
+											reservationStationMulLabel[i]={clockCount[4:0],pc[5:0]}; // Coloca a label na estacao de reserva
 											if (registersBankHaveLabel[instr1ParamB]) // Verifica se hÃ¡ dependencia de dados em B
 											begin
 												reservationStationMulJusy[i]=1'b1; // Habilita escrita em Qj
