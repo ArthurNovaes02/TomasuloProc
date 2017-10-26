@@ -18,8 +18,6 @@ module TomasuloEspec
 	output[15:0] regview;
 	output reg done;
 	
-	assign regview=registersBank[select];
-	
 	// InstrucÃµes
 	reg [15:0] instrMem [0:63];//instructions mem
 		reg [5:0] pc;
@@ -120,18 +118,18 @@ module TomasuloEspec
 		reg [15:0] dataMem [63:0]; // Memoria de dados
 		
 	// temporaries
-		reg [3:0]instr0;
+	reg [3:0]instr0; // temporarios para melhor legibilidade do codigo
 			reg [3:0]instr0ParamA;
 			reg [3:0]instr0ParamB;
 			reg [3:0]instr0ParamC;
-		reg [3:0]instr1;
+		reg [3:0]instr1;// temporarios para melhor legibilidade do codigo
 			reg [3:0]instr1ParamA;
 			reg [3:0]instr1ParamB;
 			reg [3:0]instr1ParamC;
 		reg[$clog2(ROBSIZE):0] ROBSlots;
 		integer i,j; // Iteration var
-		reg iHateVerilog666;		
-		
+		reg iHateVerilog666;	// break para os loops	
+		assign regview=registersBank[select]; // para visualizar os registradores na placa
 		always @(posedge clock) 
 		begin
 			if (run) 
@@ -1157,6 +1155,9 @@ module TomasuloEspec
 					done=1;
 				for(i=0;i<RESERVATIONSIZE;i=i+1) // verifica se ha algo pra executar 
 					if(reservationStationAddBusy[i]==1|reservationStationMulBusy[i]==1|reservationStationLdBusy[i]==1|reservationStationStBusy[i]==1)
+						done=0;
+				for(i=0;i<ROBSIZE;i=i+1) // verifica se ha algo pra executar 
+					if(ReordenationBufferBusy[i]==1)
 						done=0;
 				if(done==0)
 					clockCount=clockCount+1;
