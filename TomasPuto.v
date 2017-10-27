@@ -122,7 +122,7 @@ module TomasuloEspec
 			reg [3:0]instr0ParamA;
 			reg [3:0]instr0ParamB;
 			reg [3:0]instr0ParamC;
-		reg [3:0]instr1;// temporarios para melhor legibilidade do codigo
+	reg [3:0]instr1;// temporarios para melhor legibilidade do codigO
 			reg [3:0]instr1ParamA;
 			reg [3:0]instr1ParamB;
 			reg [3:0]instr1ParamC;
