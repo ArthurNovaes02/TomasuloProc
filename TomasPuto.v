@@ -148,7 +148,7 @@ module TomasuloEspec
 					if(ReordenationBufferBusy[i]==0)
 						ROBSlots=ROBSlots+1;
 
-				// 2 - Coloca instrucÃµes nas unides funcionais
+				// Passo 2 - Coloca instrucÃµes nas unides funcionais
 				if(SumBusy==0)
 				begin
 					for (i=0; i<RESERVATIONSIZE; i=i+1)
@@ -238,7 +238,7 @@ module TomasuloEspec
 					end
 				end
 					
-				// 1 - Despacho (todas as instrucÃµes em um clock)
+				// Passo 1 - Despacho (todas as instrucÃµes em um clock)
 				if(ROBSlots>0&pc<lastPC) // Ve se ha espaco no ROB
 				begin
 					if(instr0 == 4'b0001 | instr0 == 4'b0010 | instr0 == 4'b0111) // Estacao de reserva ADD SUB e BEQ
@@ -688,7 +688,7 @@ module TomasuloEspec
 						end
 					end
 				end
-				// 5 - Confirma ROB
+				// Passo 5 - Confirma ROB
 				if(ReordenationBufferHaveValue[ReordenationBufferIndex]==1&ReordenationBufferBusy[ReordenationBufferIndex]==1) // Confirma
 				begin
 					if(ReordenationBufferOp[ReordenationBufferIndex]==4'b0111) // se for desvio verifica
@@ -866,7 +866,7 @@ module TomasuloEspec
 				end
 	
 			
-				// 4 - Escreve no CDB
+				// Passo 4 - Escreve no CDB
 				if(SumDone==1|MulDone==1|AddrDone==1) // verifica se hÃ¡ algo para gravar
 				begin
 					if(MulDone==1 & CDBusy==0) // prioridade de gravar uma multiplicacao, vÃª se hÃ¡ alguma pronta
@@ -1058,7 +1058,7 @@ module TomasuloEspec
 					end
 				end
 				
-				// 3 - Executa InstrucÃµes
+				// Passo 3 - Executa InstrucÃµes
 				if(AddrBusy==1)
 				begin
 					if(AddrDone==0)
@@ -1156,9 +1156,14 @@ module TomasuloEspec
 				for(i=0;i<RESERVATIONSIZE;i=i+1) // verifica se ha algo pra executar 
 					if(reservationStationAddBusy[i]==1|reservationStationMulBusy[i]==1|reservationStationLdBusy[i]==1|reservationStationStBusy[i]==1)
 						done=0;
-				for(i=0;i<ROBSIZE;i=i+1) // verifica se ha algo pra executar 
+						
+						
+						
+				for(i=0;i<ROBSIZE;i=i+1) 
 					if(ReordenationBufferBusy[i]==1)
 						done=0;
+						
+						
 				if(done==0)
 					clockCount=clockCount+1;
 			end
@@ -1173,7 +1178,7 @@ module TomasuloEspec
 			dataMem[i]=0;
 		end
 		
-		// Instrucao	 ID 
+		// PROGRAMA
 		instrMem[0]=16'b0001000000010010; // r0=r1+r2
 		instrMem[1]=16'b0001000000000011;	// r0=r0+r3
 		lastPC=2;
@@ -1259,17 +1264,7 @@ endmodule
 *///Fim do Programa 5 ---------------
 
 /*//Programa 6 - BEQ
-	instrMem[1]=16'b0001000100010001; // r1=r1+r1
-	instrMem[2]=16'b0111000000010010; // beq 0 r1==r2
-	lastPC=3;
+	instrMem[0]=16'b0001000100010001; // r1=r1+r1
+	instrMem[1]=16'b0111000000010010; // beq 0 r1==r2
+	lastPC=2;
 *///Fim do Programa 6 ---------------
-
-/*//Programa 7 - Desvio/Load/Store
-	instrMem[0]=16'b0101001100000010; // ld r3 0(r2)
-	instrMem[1]=16'b0001001100110111; // r3=r3+r7
-	instrMem[2]=16'b0001001000000001; // r2=r0+r1
-	instrMem[3]=16'b0011010000110010; // r4=r3*r2
-	instrMem[4]=16'b0110010000000010; // sd r4 0(r2)
-	instrMem[5]=16'b0111000001000111; // beq 0 r4==r7
-	lastPC=6;
-*///Fim do Programa 7 ---------------
